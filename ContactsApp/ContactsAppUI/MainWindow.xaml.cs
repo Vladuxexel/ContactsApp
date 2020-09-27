@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ContactsApp;
 
 namespace ContactsAppUI
 {
@@ -23,6 +24,19 @@ namespace ContactsAppUI
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            var Contact = new Contact();
+            Contact.Surname = textBox.Text;
+            Contact.Name = textBox_Copy.Text;
+            Contact.BirthDate = datePicker.DisplayDate;
+            Contact.PhoneNumber = new PhoneNumber {Number = Convert.ToInt64(textBox_Copy2.Text)};
+            Contact.Email = textBox_Copy3.Text;
+            Contact.VkId = textBox_Copy4.Text;
+
+            MessageBox.Show(Contact.ToString());
         }
     }
 }

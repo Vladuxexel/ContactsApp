@@ -7,6 +7,13 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="156,32,0,0" TextWrapping="Wrap" Text="surname" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="textBox_Copy" HorizontalAlignment="Left" Height="23" Margin="156,60,0,0" TextWrapping="Wrap" Text="name" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="textBox_Copy2" HorizontalAlignment="Left" Height="23" Margin="156,116,0,0" TextWrapping="Wrap" Text="79148123305" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="textBox_Copy3" HorizontalAlignment="Left" Height="23" Margin="156,144,0,0" TextWrapping="Wrap" Text="dgthtr@mail.com" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="textBox_Copy4" HorizontalAlignment="Left" Height="23" Margin="156,172,0,0" TextWrapping="Wrap" Text="id/988043" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="156,219,0,0" VerticalAlignment="Top" Width="75" Click="button_Click"/>
+        <DatePicker x:Name="datePicker" HorizontalAlignment="Left" Margin="156,88,0,0" VerticalAlignment="Top" Width="120"/>
+
     </Grid>
 </Window>
