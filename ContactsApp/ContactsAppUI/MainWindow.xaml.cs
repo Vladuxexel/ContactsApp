@@ -36,7 +36,13 @@ namespace ContactsAppUI
             Contact.Email = textBox_Copy3.Text;
             Contact.VkId = textBox_Copy4.Text;
 
-            MessageBox.Show(Contact.ToString());
+            /*Сериализация*/
+            //Project proj = new Project{ContactsList = {Contact}};
+            //ProjectManager.SerializeProject(proj, @"My Documents\");
+
+            /*Десериализация*/
+            //var deser = ProjectManager.DeserializeProject(@"My Documents\");
+            //MessageBox.Show(deser.ToString());
         }
     }
 }
