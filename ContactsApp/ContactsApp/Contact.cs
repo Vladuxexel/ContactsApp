@@ -149,7 +149,7 @@ namespace ContactsApp
         /// </returns>
         public object Clone()
         {
-            PhoneNumber phoneNumber = new PhoneNumber{Number = this.PhoneNumber.Number};
+            var phoneNumber = new PhoneNumber{Number = this.PhoneNumber.Number};
 
             return new Contact
             {
