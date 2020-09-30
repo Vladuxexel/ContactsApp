@@ -23,6 +23,7 @@ namespace ContactsAppUI
     {
         public MainWindow()
         {
+            /*Инициализация*/
             InitializeComponent();
         }
 
