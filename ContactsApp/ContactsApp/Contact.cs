@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using ContactsApp.Annotations;
 
 namespace ContactsApp
 {
     /// <summary>
     /// Класс контакта.
     /// </summary>
-    public class Contact : ICloneable
+    public class Contact : ICloneable, INotifyPropertyChanged
     {
         /// <summary>
         /// Фамилия контакта.
@@ -50,9 +49,10 @@ namespace ContactsApp
             get => _surname;
             set
             {
-                if (value.Length < 50)
+                if (!IsLonger(value, 50))
                 {
-                    _surname = Char.ToUpper(value[0]) + value.Substring(1);
+                    _surname = char.ToUpper(value[0]) + value.Substring(1);
+                    OnPropertyChanged(nameof(Surname));
                 }
                 else
                 {
@@ -70,9 +70,10 @@ namespace ContactsApp
             get => _name;
             set
             {
-                if (value.Length < 50)
+                if (!IsLonger(value, 50))
                 {
-                    _name = Char.ToUpper(value[0]) + value.Substring(1);
+                    _name = char.ToUpper(value[0]) + value.Substring(1);
+                    OnPropertyChanged(nameof(Name));
                 }
                 else
                 {
@@ -90,9 +91,10 @@ namespace ContactsApp
             get => _email;
             set
             {
-                if (value.Length < 50)
+                if (!IsLonger(value, 50))
                 {
                     _email = value;
+                    OnPropertyChanged(nameof(Email));
                 }
                 else
                 {
@@ -110,9 +112,10 @@ namespace ContactsApp
             get => _vkId;
             set
             {
-                if (value.Length < 15)
+                if (!IsLonger(value, 15))
                 {
                     _vkId = value;
+                    OnPropertyChanged(nameof(VkId));
                 }
                 else
                 {
@@ -133,6 +136,7 @@ namespace ContactsApp
                 if (value < DateTime.Today && value.Year > 1900)
                 {
                     _birthDate = value;
+                    OnPropertyChanged(nameof(BirthDate));
                 }
                 else
                 {
@@ -160,6 +164,32 @@ namespace ContactsApp
                 VkId = this.VkId,
                 BirthDate = this.BirthDate
             };
+        }
+
+        /// <summary>
+        /// Метод, проверяющий, не привышает ли длина входного параметра установленное ограничение.
+        /// </summary>
+        /// <param name="parameter">Входной параметр строкового значения.</param>
+        /// <param name="target">Установленное ограничение на длину параметра.</param>
+        /// <returns></returns>
+        private bool IsLonger(string parameter, int target)
+        {
+            return parameter.Length > target;
+        }
+
+        /// <summary>
+        /// Делегат, отслеживающий изменения свойств компонента.
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Метод, обрабатывающий изменение свойств компонента.
+        /// </summary>
+        /// <param name="propertyName">Имя свойства.</param>
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

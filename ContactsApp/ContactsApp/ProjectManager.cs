@@ -42,14 +42,19 @@ namespace ContactsApp
         {
             path += FileName;
 
-            Project project = null;
+            Project project;
 
             var serializer = new JsonSerializer();
 
             using (var sr = new StreamReader(path))
             using (var reader = new JsonTextReader(sr))
             {
-                project = (Project)serializer.Deserialize<Project>(reader);
+                project = serializer.Deserialize<Project>(reader);
+
+                if (project == null)
+                {
+                    throw new ArgumentException($"Файл {path} не найден");
+                }
             }
 
             return project;

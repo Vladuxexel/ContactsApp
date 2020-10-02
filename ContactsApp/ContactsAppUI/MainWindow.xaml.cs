@@ -1,17 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using ContactsApp;
 
 namespace ContactsAppUI
@@ -23,7 +11,6 @@ namespace ContactsAppUI
     {
         public MainWindow()
         {
-            /*Инициализация*/
             InitializeComponent();
         }
 
@@ -37,11 +24,11 @@ namespace ContactsAppUI
             Contact.Email = textBox_Copy3.Text;
             Contact.VkId = textBox_Copy4.Text;
 
-            /*Сериализация*/
-            //Project proj = new Project{ContactsList = {Contact}};
+            //Сериализация
+            //Project proj = new Project { Contacts = { Contact } };
             //ProjectManager.SerializeProject(proj, @"My Documents\");
 
-            /*Десериализация*/
+            //Десериализация
             //var deser = ProjectManager.DeserializeProject(@"My Documents\");
             //MessageBox.Show(deser.ToString());
         }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 
 namespace ContactsApp
 {
@@ -15,6 +10,6 @@ namespace ContactsApp
         /// <summary>
         /// Динамическая коллекция контактов проекта.
         /// </summary>
-        public ObservableCollection<Contact> ContactsList = new ObservableCollection<Contact>();
+        public ObservableCollection<Contact> Contacts { get; set; } = new ObservableCollection<Contact>();
     }
 }
