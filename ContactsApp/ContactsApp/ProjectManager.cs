@@ -20,16 +20,36 @@ namespace ContactsApp
         private const string FileName = "ContactsApp.notes";
 
         /// <summary>
+        /// Путь по умолчанию по которому сохраняется файл.
+        /// </summary>
+        public static string PathFile()
+        {
+            var path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            return path + @"\ContactsApp\" + FileName;
+        }
+
+        /// <summary>
+        /// Путь по умолчанию по которому создается папка для файла.
+        /// </summary>
+        public static string PathDirectory()
+        {
+            var path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            return path + @"\ContactsApp\";
+        }
+
+        /// <summary>
         /// Метод сериализации данных проекта.
         /// </summary>
         public static void SerializeProject(Project project, string path)
         {
-            path += FileName;
-
+            if (path == null)
+            {
+                Directory.CreateDirectory(PathDirectory());
+                path = PathFile();
+            }
             var serializer = new JsonSerializer();
-
             using (var sw = new StreamWriter(path))
-            using (var writer = new JsonTextWriter(sw))
+            using (JsonWriter writer = new JsonTextWriter(sw))
             {
                 serializer.Serialize(writer, project);
             }
@@ -40,23 +60,25 @@ namespace ContactsApp
         /// </summary>
         public static Project DeserializeProject(string path)
         {
-            path += FileName;
-
-            Project project;
-
             var serializer = new JsonSerializer();
 
-            using (var sr = new StreamReader(path))
-            using (var reader = new JsonTextReader(sr))
+            path += FileName;
+            Project project;
+            if (!File.Exists(path) || path == null)
             {
-                project = serializer.Deserialize<Project>(reader);
-
-                if (project == null)
-                {
-                    throw new ArgumentException($"Файл {path} не найден");
-                }
+                return new Project();
             }
-
+            
+            try
+            {
+                using (StreamReader sr = new StreamReader(path))
+                using (JsonReader reader = new JsonTextReader(sr))
+                    project = serializer.Deserialize<Project>(reader);
+            }
+            catch
+            {
+                return new Project();
+            }
             return project;
         }
     }

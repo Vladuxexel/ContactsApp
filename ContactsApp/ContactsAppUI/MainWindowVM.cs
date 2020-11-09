@@ -1,12 +1,11 @@
 ﻿using ContactsApp;
+using ContactsAppUI.Commands;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace ContactsAppUI
 {
@@ -18,13 +17,21 @@ namespace ContactsAppUI
 
         public string Birthdays { get; set; }
 
+        public NewContactCommand NewContactCommand { get; }
+
+        public bool RedactingContact { get; set; }
+
         public MainWindowVM()
         {
             Project = ProjectManager.DeserializeProject(@"My Documents\");
 
-            checkBirthdays();
+            if (Project.Contacts.Count > 0)
+            {
+                checkBirthdays();
+                SelectedContact = Project.Contacts[0];
+            }
 
-            SelectedContact = Project.Contacts[0];
+            NewContactCommand = new NewContactCommand();
         }
 
         public Contact SelectedContact
@@ -43,7 +50,7 @@ namespace ContactsAppUI
 
             foreach (var item in Project.Contacts)
             {
-                if((item.BirthDate.Day == DateTime.Today.Day)&&(item.BirthDate.Month == DateTime.Today.Month))
+                if ((item.BirthDate.Day == DateTime.Today.Day) && (item.BirthDate.Month == DateTime.Today.Month))
                 {
                     surnames.Add(item.Surname);
                 }

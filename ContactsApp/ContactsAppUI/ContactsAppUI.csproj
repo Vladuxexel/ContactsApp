@@ -77,9 +77,13 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Commands\BaseCommand.cs" />
+    <Compile Include="Commands\NewContactCommand.cs" />
+    <Compile Include="Commands\TypedCommand.cs" />
     <Compile Include="ContactManagerWindow.xaml.cs">
       <DependentUpon>ContactManagerWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ContactManagerWindowVM.cs" />
     <Compile Include="DateConverter.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -120,5 +124,6 @@
       <Name>ContactsApp</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
