@@ -16,13 +16,6 @@ namespace ContactsAppUI
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            var Contact = new Contact();
-            Contact.Surname = textBox.Text;
-            Contact.Name = textBox_Copy.Text;
-            Contact.BirthDate = datePicker.DisplayDate;
-            Contact.PhoneNumber = new PhoneNumber {Number = Convert.ToInt64(textBox_Copy2.Text)};
-            Contact.Email = textBox_Copy3.Text;
-            Contact.VkId = textBox_Copy4.Text;
 
             //Сериализация
             //Project proj = new Project { Contacts = { Contact } };
