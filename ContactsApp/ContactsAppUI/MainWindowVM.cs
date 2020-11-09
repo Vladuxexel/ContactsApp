@@ -16,9 +16,15 @@ namespace ContactsAppUI
 
         public Project Project { get; set; } = new Project();
 
+        public string Birthdays { get; set; }
+
         public MainWindowVM()
         {
             Project = ProjectManager.DeserializeProject(@"My Documents\");
+
+            checkBirthdays();
+
+            SelectedContact = Project.Contacts[0];
         }
 
         public Contact SelectedContact
@@ -29,6 +35,21 @@ namespace ContactsAppUI
                 _selectedContact = value;
                 OnPropertyChanged(nameof(SelectedContact));
             }
+        }
+
+        private void checkBirthdays()
+        {
+            var surnames = new List<string>();
+
+            foreach (var item in Project.Contacts)
+            {
+                if((item.BirthDate.Day == DateTime.Today.Day)&&(item.BirthDate.Month == DateTime.Today.Month))
+                {
+                    surnames.Add(item.Surname);
+                }
+            }
+
+            Birthdays = $"Сегодня день рождения:\n{String.Join(", ", surnames)}";
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

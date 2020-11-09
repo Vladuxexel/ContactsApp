@@ -80,6 +80,7 @@
     <Compile Include="ContactManagerWindow.xaml.cs">
       <DependentUpon>ContactManagerWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DateConverter.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
