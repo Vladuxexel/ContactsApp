@@ -11,7 +11,8 @@ namespace ContactsAppUI.Commands
         protected override void Execute(MainWindowVM parameter)
         {
             ContactManagerWindow _contactManagerWindow = new ContactManagerWindow(parameter.Project, 
-                                                                                  parameter.SelectedContact, true);
+                                                                                  parameter.SelectedContact,
+                                                                                  parameter.Birthdays, true);
             _contactManagerWindow.ShowDialog();
         }
     }

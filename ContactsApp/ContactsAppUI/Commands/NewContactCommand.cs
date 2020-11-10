@@ -5,7 +5,8 @@
         protected override void Execute(MainWindowVM parameter)
         {
             ContactManagerWindow _contactManagerWindow = new ContactManagerWindow(parameter.Project, 
-                                                                                  parameter.SelectedContact, false);
+                                                                                  parameter.SelectedContact,
+                                                                                  parameter.Birthdays, false);
             _contactManagerWindow.SurnameField.Text = "";
             _contactManagerWindow.NameField.Text = "";
             _contactManagerWindow.BirthDayDataPicker.SelectedDate = null;

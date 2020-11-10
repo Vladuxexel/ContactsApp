@@ -6,8 +6,14 @@
         xmlns:local="clr-namespace:ContactsAppUI"
         xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         Title="ContactsApp" MinHeight="450" MinWidth="800" Background="#f0f0f0" WindowStartupLocation="CenterScreen">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding ClosingWindowSaveCommand}" CommandParameter="{Binding}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <Window.DataContext>
         <local:MainWindowVM/>
     </Window.DataContext>
@@ -54,7 +60,7 @@
                     <Button Command="{Binding RedactContactCommand}" CommandParameter="{Binding}" Width="20" Height="20" Margin="10" BorderThickness="0" Background="#f0f0f0">
                         <fa:ImageAwesome ToolTip="Редактировать текущий контакт" Icon="Edit"/>
                     </Button>
-                    <Button Width="20" Height="20" Margin="10" BorderThickness="0" Background="#f0f0f0">
+                    <Button Command="{Binding DeleteContactCommand}" CommandParameter="{Binding}" Width="20" Height="20" Margin="10" BorderThickness="0" Background="#f0f0f0">
                         <fa:ImageAwesome ToolTip="Удалить текущий контакт" Icon="Minus"/>
                     </Button>
                 </StackPanel>
@@ -107,7 +113,7 @@
                     <Label VerticalAlignment="Center" HorizontalAlignment="Right" Content="vk.com:" Grid.Column="0" Grid.Row="5"/>
                     <TextBox IsReadOnly="True" Text="{Binding VkId}" Grid.Column="1" Grid.Row="5" Margin="5"/>
                 </Grid>
-                <Grid Grid.ColumnSpan="2" Grid.Row="2" Background="#b9d1eb">
+                <Grid Visibility="{Binding Visibility}" Grid.ColumnSpan="2" Grid.Row="2" Background="#b9d1eb">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="0.2*"/>
                         <ColumnDefinition/>

@@ -17,6 +17,8 @@ namespace ContactsAppUI
 
         public Project Project { get; set; }
 
+        public string BirthDays { get; set; }
+
         public bool IsRedacting { get; set; }
 
         public ContactManagerWindow ContactManagerWindow { get; set; }
@@ -25,8 +27,9 @@ namespace ContactsAppUI
 
         public CancelCommand CancelCommand { get; }
         public ContactManagerWindowVM(ContactManagerWindow contactManagerWindow, Contact contact,
-                                      Project project, bool isRedacting)
+                                      Project project, string birthDays, bool isRedacting)
         {
+            BirthDays = birthDays;
             Contact = contact;
             IsRedacting = isRedacting;
             ContactManagerWindow = contactManagerWindow;

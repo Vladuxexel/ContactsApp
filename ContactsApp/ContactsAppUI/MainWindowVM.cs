@@ -2,10 +2,12 @@
 using ContactsAppUI.Commands;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace ContactsAppUI
 {
@@ -13,18 +15,19 @@ namespace ContactsAppUI
     {
         private Contact _selectedContact;
 
+        private string _birthDays;
+
         public Project Project { get; set; } = new Project();
 
-        public string Birthdays { get; set; }
+        public Visibility Visibility { get; set; } = Visibility.Hidden;
 
         public NewContactCommand NewContactCommand { get; }
         public RedactContactCommand RedactContactCommand { get; }
-
-        public bool RedactingContact { get; set; }
+        public DeleteContactCommand DeleteContactCommand { get; }
 
         public MainWindowVM()
         {
-            Project = ProjectManager.DeserializeProject(@"My Documents\");
+            Project = ProjectManager.LoadFromFile(ProjectManager.PathFile());
 
             if (Project.Contacts.Count > 0)
             {
@@ -34,6 +37,7 @@ namespace ContactsAppUI
 
             NewContactCommand = new NewContactCommand();
             RedactContactCommand = new RedactContactCommand();
+            DeleteContactCommand = new DeleteContactCommand();
         }
 
         public Contact SelectedContact
@@ -43,6 +47,16 @@ namespace ContactsAppUI
             {
                 _selectedContact = value;
                 OnPropertyChanged(nameof(SelectedContact));
+            }
+        }
+
+        public string Birthdays
+        {
+            get => _birthDays;
+            set
+            {
+                _birthDays = value;
+                OnPropertyChanged(nameof(Birthdays));
             }
         }
 
@@ -56,6 +70,11 @@ namespace ContactsAppUI
                 {
                     surnames.Add(item.Surname);
                 }
+            }
+
+            if(surnames.Count > 0)
+            {
+                Visibility = Visibility.Visible;
             }
 
             Birthdays = $"Сегодня день рождения:\n{String.Join(", ", surnames)}";

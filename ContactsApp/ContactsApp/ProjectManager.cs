@@ -14,18 +14,12 @@ namespace ContactsApp
     public static class ProjectManager
     {
         /// <summary>
-        /// Имя файла для сериализации/десериализации данных проекта.
-        /// Путь для сериализации/десериализации данных проекта.
-        /// </summary>
-        private const string FileName = "ContactsApp.notes";
-
-        /// <summary>
         /// Путь по умолчанию по которому сохраняется файл.
         /// </summary>
         public static string PathFile()
         {
             var path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            return path + @"\My documents\" + FileName;
+            return path + @"\ContactsApp\Contacts.json";
         }
 
         /// <summary>
@@ -34,46 +28,64 @@ namespace ContactsApp
         public static string PathDirectory()
         {
             var path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            return path + @"\My documents\";
+            return path + @"\ContactsApp\";
         }
 
         /// <summary>
-        /// Метод сериализации данных проекта.
+        /// Метод сохранения данных путем сериализации.
         /// </summary>
-        public static void SerializeProject(Project project, string path)
+        /// <param name="project">Данные для сериализации.</param>
+        /// <param name="filepath">Путь до файла</param>
+        public static void SaveToFile(Project project, string filepath)
         {
-            path += FileName;
-
-            if (path == null)
+            try
             {
-                Directory.CreateDirectory(PathDirectory());
-                path = PathFile();
+                var serializer = new JsonSerializer();
+                using (var sw = new StreamWriter(filepath))
+                using (JsonWriter writer = new JsonTextWriter(sw))
+                {
+                    serializer.Serialize(writer, project);
+                }
             }
-            var serializer = new JsonSerializer();
-            using (var sw = new StreamWriter(path))
-            using (JsonWriter writer = new JsonTextWriter(sw))
+            catch
             {
-                serializer.Serialize(writer, project);
+                filepath = PathFile();
+                try
+                {
+                    var serializer = new JsonSerializer();
+                    using (var sw = new StreamWriter(filepath))
+                    using (JsonWriter writer = new JsonTextWriter(sw))
+                    {
+                        serializer.Serialize(writer, project);
+                    }
+                }
+                catch
+                {
+                    Directory.CreateDirectory(PathDirectory());
+                    var serializer = new JsonSerializer();
+                    using (var sw = new StreamWriter(filepath))
+                    using (JsonWriter writer = new JsonTextWriter(sw))
+                    {
+                        serializer.Serialize(writer, project);
+                    }
+                }
             }
         }
 
         /// <summary>
-        /// Метод десериализации данных проекта.
+        /// Метод загрузки данных путем десериализации.
         /// </summary>
-        public static Project DeserializeProject(string path)
+        public static Project LoadFromFile(string filepath)
         {
-            var serializer = new JsonSerializer();
-
-            path += FileName;
             Project project;
-            if (!File.Exists(path) || path == null)
+            if (!File.Exists(filepath))
             {
                 return new Project();
             }
-            
+            var serializer = new JsonSerializer();
             try
             {
-                using (StreamReader sr = new StreamReader(path))
+                using (StreamReader sr = new StreamReader(filepath))
                 using (JsonReader reader = new JsonTextReader(sr))
                     project = serializer.Deserialize<Project>(reader);
             }

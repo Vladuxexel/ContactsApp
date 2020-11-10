@@ -46,7 +46,7 @@ namespace ContactsAppUI.Commands
             {
                 parameter.Project.Contacts.Add(contact);                
             }
-            ProjectManager.SerializeProject(parameter.Project, @"My documents\");
+            ProjectManager.SaveToFile(parameter.Project, @"My documents\");
             parameter.ContactManagerWindow.Close();
         }
 
@@ -78,11 +78,6 @@ namespace ContactsAppUI.Commands
             }
 
             return false;
-        }
-
-        private bool isValid(ContactManagerWindow form)
-        {
-            return true;
         }
     }
 }
