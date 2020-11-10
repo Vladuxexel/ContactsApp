@@ -51,7 +51,7 @@
                     <Button Command="{Binding NewContactCommand}" CommandParameter="{Binding}" Width="20" Height="20" Margin="10" BorderThickness="0" Background="#f0f0f0">
                         <fa:ImageAwesome ToolTip="Создать новый контакт" Icon="Plus"/>
                     </Button>
-                    <Button Width="20" Height="20" Margin="10" BorderThickness="0" Background="#f0f0f0">
+                    <Button Command="{Binding RedactContactCommand}" CommandParameter="{Binding}" Width="20" Height="20" Margin="10" BorderThickness="0" Background="#f0f0f0">
                         <fa:ImageAwesome ToolTip="Редактировать текущий контакт" Icon="Edit"/>
                     </Button>
                     <Button Width="20" Height="20" Margin="10" BorderThickness="0" Background="#f0f0f0">

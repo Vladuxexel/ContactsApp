@@ -18,6 +18,7 @@ namespace ContactsAppUI
         public string Birthdays { get; set; }
 
         public NewContactCommand NewContactCommand { get; }
+        public RedactContactCommand RedactContactCommand { get; }
 
         public bool RedactingContact { get; set; }
 
@@ -32,6 +33,7 @@ namespace ContactsAppUI
             }
 
             NewContactCommand = new NewContactCommand();
+            RedactContactCommand = new RedactContactCommand();
         }
 
         public Contact SelectedContact

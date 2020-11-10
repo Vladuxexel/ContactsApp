@@ -2,11 +2,16 @@
 {
     public class NewContactCommand : TypedCommand<MainWindowVM>
     {
-        protected override void Execute(MainWindowVM viewModel)
+        protected override void Execute(MainWindowVM parameter)
         {
-            viewModel.RedactingContact = false;
-
-            ContactManagerWindow _contactManagerWindow = new ContactManagerWindow();
+            ContactManagerWindow _contactManagerWindow = new ContactManagerWindow(parameter.Project, 
+                                                                                  parameter.SelectedContact, false);
+            _contactManagerWindow.SurnameField.Text = "";
+            _contactManagerWindow.NameField.Text = "";
+            _contactManagerWindow.BirthDayDataPicker.SelectedDate = null;
+            _contactManagerWindow.PhoneField.Text = "";
+            _contactManagerWindow.EmailField.Text = "";
+            _contactManagerWindow.VkField.Text = "";
             _contactManagerWindow.ShowDialog();
         }
     }

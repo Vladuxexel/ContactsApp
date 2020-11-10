@@ -25,7 +25,7 @@ namespace ContactsApp
         public static string PathFile()
         {
             var path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            return path + @"\ContactsApp\" + FileName;
+            return path + @"\My documents\" + FileName;
         }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace ContactsApp
         public static string PathDirectory()
         {
             var path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            return path + @"\ContactsApp\";
+            return path + @"\My documents\";
         }
 
         /// <summary>
@@ -42,6 +42,8 @@ namespace ContactsApp
         /// </summary>
         public static void SerializeProject(Project project, string path)
         {
+            path += FileName;
+
             if (path == null)
             {
                 Directory.CreateDirectory(PathDirectory());

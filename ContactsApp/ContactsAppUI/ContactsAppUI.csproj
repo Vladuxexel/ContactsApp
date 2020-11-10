@@ -77,8 +77,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Commands\AddRedactCommand.cs" />
     <Compile Include="Commands\BaseCommand.cs" />
+    <Compile Include="Commands\CancelCommand.cs" />
     <Compile Include="Commands\NewContactCommand.cs" />
+    <Compile Include="Commands\RedactContactCommand.cs" />
     <Compile Include="Commands\TypedCommand.cs" />
     <Compile Include="ContactManagerWindow.xaml.cs">
       <DependentUpon>ContactManagerWindow.xaml</DependentUpon>

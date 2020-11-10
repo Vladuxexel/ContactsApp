@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 
 namespace ContactsAppUI.Commands
 {
@@ -44,7 +45,7 @@ namespace ContactsAppUI.Commands
             }
             catch (Exception ex)
             {
-                throw new ArgumentException(ex.Message);
+                MessageBox.Show(ex.Message);
             }
         }
 
