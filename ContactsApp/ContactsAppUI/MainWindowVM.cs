@@ -24,6 +24,7 @@ namespace ContactsAppUI
         public NewContactCommand NewContactCommand { get; }
         public RedactContactCommand RedactContactCommand { get; }
         public DeleteContactCommand DeleteContactCommand { get; }
+        public AboutCommand AboutCommand { get; }
 
         public MainWindowVM()
         {
@@ -38,6 +39,7 @@ namespace ContactsAppUI
             NewContactCommand = new NewContactCommand();
             RedactContactCommand = new RedactContactCommand();
             DeleteContactCommand = new DeleteContactCommand();
+            AboutCommand = new AboutCommand();
         }
 
         public Contact SelectedContact

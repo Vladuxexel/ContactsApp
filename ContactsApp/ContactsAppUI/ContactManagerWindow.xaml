@@ -21,7 +21,7 @@
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
         <Label VerticalAlignment="Center" HorizontalAlignment="Right" Content="Surname:" Grid.Column="0" Grid.Row="0"/>
-        <TextBox x:Name="SurnameField" Text="{Binding Contact.Surname, Mode=OneWay}"
+        <TextBox x:Name="SurnameField"  Text="{Binding Contact.Surname, Mode=OneWay}"
                  Grid.Column="1" Grid.Row="0" Margin="5"/>
         <Label VerticalAlignment="Center" HorizontalAlignment="Right" Content="Name:" Grid.Column="0" Grid.Row="1"/>
         <TextBox x:Name="NameField" Text="{Binding Contact.Name, Mode=OneWay}" Grid.Column="1" Grid.Row="1" Margin="5"/>

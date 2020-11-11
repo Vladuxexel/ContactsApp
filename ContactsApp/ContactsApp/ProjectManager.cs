@@ -49,25 +49,12 @@ namespace ContactsApp
             }
             catch
             {
-                filepath = PathFile();
-                try
+                Directory.CreateDirectory(PathDirectory());
+                var serializer = new JsonSerializer();
+                using (var sw = new StreamWriter(filepath))
+                using (JsonWriter writer = new JsonTextWriter(sw))
                 {
-                    var serializer = new JsonSerializer();
-                    using (var sw = new StreamWriter(filepath))
-                    using (JsonWriter writer = new JsonTextWriter(sw))
-                    {
-                        serializer.Serialize(writer, project);
-                    }
-                }
-                catch
-                {
-                    Directory.CreateDirectory(PathDirectory());
-                    var serializer = new JsonSerializer();
-                    using (var sw = new StreamWriter(filepath))
-                    using (JsonWriter writer = new JsonTextWriter(sw))
-                    {
-                        serializer.Serialize(writer, project);
-                    }
+                    serializer.Serialize(writer, project);
                 }
             }
         }
