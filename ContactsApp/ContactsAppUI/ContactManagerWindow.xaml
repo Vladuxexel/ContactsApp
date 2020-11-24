@@ -26,7 +26,8 @@
         <Label VerticalAlignment="Center" HorizontalAlignment="Right" Content="Name:" Grid.Column="0" Grid.Row="1"/>
         <TextBox x:Name="NameField" Text="{Binding Contact.Name, Mode=OneWay}" Grid.Column="1" Grid.Row="1" Margin="5"/>
         <Label VerticalAlignment="Center" HorizontalAlignment="Right" Content="Birthday:" Grid.Column="0" Grid.Row="2"/>
-        <DatePicker x:Name="BirthDayDataPicker" SelectedDate="{Binding Contact.BirthDate, Mode=OneWay}" Grid.Column="1" Grid.Row="2" Margin="5" MaxWidth="200" HorizontalAlignment="Left"/>
+        <DatePicker x:Name="BirthDayDataPicker" SelectedDate="{Binding Contact.BirthDate, Mode=OneWay}" Grid.Column="1"
+                    Grid.Row="2" Margin="5" MaxWidth="200" HorizontalAlignment="Left"/>
         <Label VerticalAlignment="Center" HorizontalAlignment="Right" Content="Phone:" Grid.Column="0" Grid.Row="3"/>
         <TextBox x:Name="PhoneField" Text="{Binding Contact.PhoneNumber.Number, Mode=OneWay}"
                  Grid.Column="1" Grid.Row="3" Margin="5"/>
