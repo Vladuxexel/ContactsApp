@@ -9,21 +9,11 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         Title="ContactsApp" MinHeight="450" MinWidth="800" Background="#f0f0f0" WindowStartupLocation="CenterScreen">
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Closing">
-            <i:InvokeCommandAction Command="{Binding ClosingWindowSaveCommand}" CommandParameter="{Binding}"/>
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
     <Window.DataContext>
         <local:MainWindowVM/>
     </Window.DataContext>
     <Window.Resources>
         <local:DateConverter x:Key="dateConverter"/>
-        <CollectionViewSource x:Key="viewSorter" Source="{Binding Path=Project.Contacts}">
-            <CollectionViewSource.SortDescriptions>
-                <scm:SortDescription PropertyName="Surname" />
-            </CollectionViewSource.SortDescriptions>
-        </CollectionViewSource>
     </Window.Resources>
     <DockPanel>
         <Menu DockPanel.Dock="Top" Height="25" VerticalAlignment="Top" Grid.Row="0" Grid.ColumnSpan="2">
@@ -36,7 +26,7 @@
                 <MenuItem Header="Remove Contact"/>
             </MenuItem>
             <MenuItem Header="Help">
-                <MenuItem Header="About (F1)" Command="{Binding AboutCommand}" CommandParameter="{Binding}"/>
+                <MenuItem Header="About (F1)"/>
             </MenuItem>
         </Menu>
         <Grid>
@@ -50,29 +40,29 @@
                         <ColumnDefinition Width="40"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Label HorizontalAlignment="Center" Content="Find:" Grid.Column="0" Margin="0 2 0 0"/>
+                    <Label HorizontalAlignment="Center" Content="Find:" Grid.Column="0" Margin="4 3 0 0"/>
                     <TextBox Grid.Column="1" Margin="5 6 5 5"/>
                 </Grid>
                 <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
-                    <Button Command="{Binding NewContactCommand}" CommandParameter="{Binding}"
-                            Width="25" Height="25" Margin="10" BorderThickness="0" Background="#f0f0f0">
+                    <Button Width="25" Height="25" Command="{Binding AddContactCommand}"
+                            Margin="10" BorderThickness="0" Background="#f0f0f0">
                         <fa:ImageAwesome  ToolTip="Создать новый контакт" Icon="PlusSquareOutline"/>
                     </Button>
-                    <Button Command="{Binding RedactContactCommand}" CommandParameter="{Binding}"
-                            Width="25" Height="25" Margin="10" BorderThickness="0" Background="#f0f0f0">
+                    <Button Width="25" Height="25" Command="{Binding EditContactCommand}"
+                            Margin="10" BorderThickness="0" Background="#f0f0f0">
                         <fa:ImageAwesome ToolTip="Редактировать текущий контакт" Icon="Edit"/>
                     </Button>
-                    <Button Command="{Binding DeleteContactCommand}" CommandParameter="{Binding}"
-                            Width="25" Height="25" Margin="10" BorderThickness="0" Background="#f0f0f0">
+                    <Button Width="25" Height="25" Command="{Binding DeleteContactCommand}"
+                            Margin="10" BorderThickness="0" Background="#f0f0f0">
                         <fa:ImageAwesome ToolTip="Удалить текущий контакт" Icon="MinusSquareOutline"/>
                     </Button>
                 </StackPanel>
-                <ListBox x:Name="ContactsListBox" ItemsSource="{Binding Source={StaticResource viewSorter}}"
-                         SelectedItem="{Binding SelectedContact}" Margin="5">
+                <ListBox x:Name="ContactsListBox" Margin="5" 
+                         ItemsSource="{Binding Project.Contacts}" SelectedItem="{Binding SelectedContact}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>
-                                <TextBlock Text="{Binding Path=Surname}"/>
+                                <TextBlock Text="{Binding Surname}"/>
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -97,7 +87,7 @@
                         <RowDefinition MaxHeight="30"/>
                         <RowDefinition MaxHeight="30"/>
                     </Grid.RowDefinitions>
-                    <Label VerticalAlignment="Center" Margin="0 1 0 0"
+                    <Label VerticalAlignment="Center" Margin="0 2 0 0"
                            HorizontalAlignment="Right" Content="Surname:" Grid.Column="0" Grid.Row="0"/>
                     <TextBox IsReadOnly="True" Text="{Binding Surname}" Grid.Column="1" Grid.Row="0" Margin="5"/>
                     <Label VerticalAlignment="Center" Margin="0 2 0 0"
@@ -110,14 +100,15 @@
                             <ColumnDefinition Width="80"/>
                             <ColumnDefinition Width="20"/>
                         </Grid.ColumnDefinitions>
-                        <TextBox IsReadOnly="True" Text="{Binding BirthDate, Converter={StaticResource dateConverter}}"
+                        <TextBox IsReadOnly="True" 
+                                 Text="{Binding BirthDate, Converter={StaticResource dateConverter}}"
                                  Grid.Column="0" Margin="5"/>
                         <fa:ImageAwesome MaxHeight="15" HorizontalAlignment="Left" Icon="Calendar" Grid.Column="1"/>
                     </Grid>
                     <Label VerticalAlignment="Center" Margin="0 2 0 0"
                            HorizontalAlignment="Right" Content="Phone:" Grid.Column="0" Grid.Row="3"/>
-                    <TextBox IsReadOnly="True"
-                             Text="{Binding PhoneNumber.Number}" Grid.Column="1" Grid.Row="3" Margin="5"/>
+                    <TextBox IsReadOnly="True" Text="{Binding PhoneNumber.Number}"
+                             Grid.Column="1" Grid.Row="3" Margin="5"/>
                     <Label VerticalAlignment="Center" Margin="0 2 0 0"
                            HorizontalAlignment="Right" Content="E-mail:" Grid.Column="0" Grid.Row="4"/>
                     <TextBox IsReadOnly="True" Text="{Binding Email}" Grid.Column="1" Grid.Row="4" Margin="5"/>
@@ -125,13 +116,13 @@
                            HorizontalAlignment="Right" Content="vk.com:" Grid.Column="0" Grid.Row="5"/>
                     <TextBox IsReadOnly="True" Text="{Binding VkId}" Grid.Column="1" Grid.Row="5" Margin="5"/>
                 </Grid>
-                <Grid Visibility="{Binding Visibility}" Grid.ColumnSpan="2" Grid.Row="2" Background="#b9d1eb">
+                <Grid Grid.ColumnSpan="2" Grid.Row="2" Background="#b9d1eb">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="0.2*"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <fa:ImageAwesome Icon="InfoCircle" Margin="0 5 0 5"/>
-                    <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{Binding Birthdays}"/>
+                    <TextBlock Grid.Column="1" VerticalAlignment="Center"/>
                 </Grid>
             </Grid>
         </Grid>

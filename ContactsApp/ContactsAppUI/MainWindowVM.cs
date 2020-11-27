@@ -1,8 +1,6 @@
 ﻿using ContactsApp;
-using ContactsAppUI.Commands;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -15,32 +13,15 @@ namespace ContactsAppUI
     {
         private Contact _selectedContact;
 
-        private string _birthDays;
+        private RelayCommand _editContactCommand;
 
-        public Project Project { get; set; } = new Project();
+        private RelayCommand _addContactCommand;
 
-        public Visibility Visibility { get; set; } = Visibility.Hidden;
+        private RelayCommand _deleteContactCommand;
 
-        public NewContactCommand NewContactCommand { get; }
-        public RedactContactCommand RedactContactCommand { get; }
-        public DeleteContactCommand DeleteContactCommand { get; }
-        public AboutCommand AboutCommand { get; }
+        public Project Project { get; set; }
 
-        public MainWindowVM()
-        {
-            Project = ProjectManager.LoadFromFile(ProjectManager.PathFile());
-
-            if (Project.Contacts.Count > 0)
-            {
-                checkBirthdays();
-                SelectedContact = Project.Contacts[0];
-            }
-
-            NewContactCommand = new NewContactCommand();
-            RedactContactCommand = new RedactContactCommand();
-            DeleteContactCommand = new DeleteContactCommand();
-            AboutCommand = new AboutCommand();
-        }
+        public ContactManagerWindow ContactWindow { get; set; }
 
         public Contact SelectedContact
         {
@@ -52,34 +33,51 @@ namespace ContactsAppUI
             }
         }
 
-        public string Birthdays
+        public MainWindowVM()
         {
-            get => _birthDays;
-            set
+            Project = ProjectManager.LoadFromFile(ProjectManager.PathFile());
+            SelectedContact = Project.Contacts.First();
+        }
+
+        public RelayCommand EditContactCommand
+        {
+            get
             {
-                _birthDays = value;
-                OnPropertyChanged(nameof(Birthdays));
+                return _editContactCommand ??
+                    (_editContactCommand = new RelayCommand(obj =>
+                    {
+                        ContactWindow = new ContactManagerWindow(SelectedContact.Clone() as Contact);
+                        ContactWindow.ShowDialog();
+                    }));
             }
         }
 
-        private void checkBirthdays()
+        public RelayCommand AddContactCommand
         {
-            var surnames = new List<string>();
-
-            foreach (var item in Project.Contacts)
+            get
             {
-                if ((item.BirthDate.Day == DateTime.Today.Day) && (item.BirthDate.Month == DateTime.Today.Month))
+                return _addContactCommand ??
+                    (_addContactCommand = new RelayCommand(obj =>
+                    {
+                        ContactWindow = new ContactManagerWindow(new Contact());
+                        ContactWindow.ShowDialog();
+                    }));
+            }
+        }
+
+        public RelayCommand DeleteContactCommand
+        {
+            get => _deleteContactCommand ??
+                (_deleteContactCommand = new RelayCommand(obj =>
                 {
-                    surnames.Add(item.Surname);
-                }
-            }
-
-            if(surnames.Count > 0)
-            {
-                Visibility = Visibility.Visible;
-            }
-
-            Birthdays = $"Сегодня день рождения:\n{String.Join(", ", surnames)}";
+                    if (MessageBox.Show($"Are you sure you want to delete {SelectedContact.Surname} ?",
+                        "Delete confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    {
+                        Project.Contacts.Remove(SelectedContact);
+                        SelectedContact = Project.Contacts.First();
+                        ProjectManager.SaveToFile(Project, ProjectManager.PathFile());
+                    }
+                }));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

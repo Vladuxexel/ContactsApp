@@ -1,45 +1,44 @@
 ﻿using ContactsApp;
-using ContactsAppUI.Commands;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
+using System.ComponentModel;
+using ContactsApp.Annotations;
+using System.Runtime.CompilerServices;
 
 namespace ContactsAppUI
 {
     public class ContactManagerWindowVM : INotifyPropertyChanged
     {
-        public Contact Contact { get; set; }
+        private Contact _contact;
 
-        public Project Project { get; set; }
-
-        public string BirthDays { get; set; }
-
-        public bool IsRedacting { get; set; }
-
-        public ContactManagerWindow ContactManagerWindow { get; set; }
-
-        public AddRedactCommand AddRedactCommand { get; }
-
-        public CancelCommand CancelCommand { get; }
-        public ContactManagerWindowVM(ContactManagerWindow contactManagerWindow, Contact contact,
-                                      Project project, string birthDays, bool isRedacting)
+        public Contact Contact
         {
-            BirthDays = birthDays;
-            Contact = contact;
-            IsRedacting = isRedacting;
-            ContactManagerWindow = contactManagerWindow;
-            Project = project;
-            AddRedactCommand = new AddRedactCommand();
-            CancelCommand = new CancelCommand();
+            get => _contact;
+            set
+            {
+                _contact = value;
+            }
         }
 
+        public ContactManagerWindowVM (Contact contact)
+        {
+            Contact = contact;
+        }
+
+        /// <summary>
+        /// Делегат, отслеживающий изменения свойств компонента.
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName)
+
+        /// <summary>
+        /// Метод, обрабатывающий изменение свойств компонента.
+        /// </summary>
+        /// <param name="propertyName">Имя свойства.</param>
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

@@ -36,9 +36,21 @@ namespace ContactsApp
         private string _vkId;
 
         /// <summary>
+        /// Номер контакта
+        /// </summary>
+        private PhoneNumber _phoneNumber;
+
+        /// <summary>
         /// Номер телефона контакта.
         /// </summary>
-        public PhoneNumber PhoneNumber { get; set; }
+        public PhoneNumber PhoneNumber {
+            get => _phoneNumber;
+            set
+            {
+                _phoneNumber = value;
+                OnPropertyChanged(nameof(PhoneNumber));
+            }
+        }
 
         /// <summary>
         /// Свойство фамилии контакта.
