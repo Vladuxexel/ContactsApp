@@ -61,23 +61,30 @@ namespace ContactsAppUI
                     {
                         ContactWindow = new ContactManagerWindow(new Contact());
                         ContactWindow.ShowDialog();
+                        if (ContactWindow.DialogResult == true)
+                        {
+                            Project.Contacts.Add(ProjectManager.TempContact);
+                        }
                     }));
             }
         }
 
         public RelayCommand DeleteContactCommand
         {
-            get => _deleteContactCommand ??
-                (_deleteContactCommand = new RelayCommand(obj =>
-                {
-                    if (MessageBox.Show($"Are you sure you want to delete {SelectedContact.Surname} ?",
-                        "Delete confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            get
+            {
+                return _deleteContactCommand ??
+                    (_deleteContactCommand = new RelayCommand(obj =>
                     {
-                        Project.Contacts.Remove(SelectedContact);
-                        SelectedContact = Project.Contacts.First();
-                        ProjectManager.SaveToFile(Project, ProjectManager.PathFile());
-                    }
-                }));
+                        if (MessageBox.Show($"Are you sure you want to delete {SelectedContact.Surname} ?",
+                            "Delete confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                        {
+                            Project.Contacts.Remove(SelectedContact);
+                            SelectedContact = Project.Contacts.First();
+                            ProjectManager.SaveToFile(Project, ProjectManager.PathFile());
+                        }
+                    }));
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

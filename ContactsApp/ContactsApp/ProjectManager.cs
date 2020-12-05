@@ -14,6 +14,11 @@ namespace ContactsApp
     public static class ProjectManager
     {
         /// <summary>
+        /// Автосвойство для временного хранения манипулируемого контакта
+        /// </summary>
+        public static Contact TempContact { get; set; }
+
+        /// <summary>
         /// Путь по умолчанию по которому сохраняется файл.
         /// </summary>
         public static string PathFile()

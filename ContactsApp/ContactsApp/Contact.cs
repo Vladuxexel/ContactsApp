@@ -47,8 +47,15 @@ namespace ContactsApp
             get => _phoneNumber;
             set
             {
-                _phoneNumber = value;
-                OnPropertyChanged(nameof(PhoneNumber));
+                if (value != null)
+                {
+                    _phoneNumber = value;
+                    OnPropertyChanged(nameof(PhoneNumber));
+                }
+                else
+                {
+                    throw new ArgumentException("Phone number is unset");
+                }
             }
         }
 
@@ -61,14 +68,21 @@ namespace ContactsApp
             get => _surname;
             set
             {
-                if (!IsLonger(value, 50))
+                if (value != "" && value != null)
                 {
-                    _surname = char.ToUpper(value[0]) + value.Substring(1);
-                    OnPropertyChanged(nameof(Surname));
+                    if (!IsLonger(value.Length, 50))
+                    {
+                        _surname = char.ToUpper(value[0]) + value.Substring(1);
+                        OnPropertyChanged(nameof(Surname));
+                    }
+                    else
+                    {
+                        throw new ArgumentException("Length of surname can't be more than 50");
+                    }
                 }
                 else
                 {
-                    throw new ArgumentException("Длина фамилии не может быть больше 50");
+                    throw new ArgumentException("Surname of contact is unset");
                 }
             }
         }
@@ -82,14 +96,21 @@ namespace ContactsApp
             get => _name;
             set
             {
-                if (!IsLonger(value, 50))
+                if (value != "" && value != null)
                 {
-                    _name = char.ToUpper(value[0]) + value.Substring(1);
-                    OnPropertyChanged(nameof(Name));
+                    if (!IsLonger(value.Length, 50))
+                    {
+                        _name = char.ToUpper(value[0]) + value.Substring(1);
+                        OnPropertyChanged(nameof(Name));
+                    }
+                    else
+                    {
+                        throw new ArgumentException("Length of name can't be more than 50");
+                    }
                 }
                 else
                 {
-                    throw new ArgumentException("Длина имени не может быть больше 50");
+                    throw new ArgumentException("Name of contact is unset");
                 }
             }
         }
@@ -103,14 +124,21 @@ namespace ContactsApp
             get => _email;
             set
             {
-                if (!IsLonger(value, 50))
+                if (value != "" && value != null)
                 {
-                    _email = value;
-                    OnPropertyChanged(nameof(Email));
+                    if (!IsLonger(value.Length, 50))
+                    {
+                        _email = value;
+                        OnPropertyChanged(nameof(Email));
+                    }
+                    else
+                    {
+                        throw new ArgumentException("Length of e-mail can't be more than 50");
+                    }
                 }
                 else
                 {
-                    throw new ArgumentException("Длина email не может быть больше 50");
+                    throw new ArgumentException("Email of contact is unset");
                 }
             }
         }
@@ -124,14 +152,21 @@ namespace ContactsApp
             get => _vkId;
             set
             {
-                if (!IsLonger(value, 15))
+                if (value != "" && value != null)
                 {
-                    _vkId = value;
-                    OnPropertyChanged(nameof(VkId));
+                    if (!IsLonger(value.Length, 15))
+                    {
+                        _vkId = value;
+                        OnPropertyChanged(nameof(VkId));
+                    }
+                    else
+                    {
+                        throw new ArgumentException("Length of vk id can't be more than 15");
+                    }
                 }
                 else
                 {
-                    throw new ArgumentException("Длина Id не может быть больше 15");
+                    throw new ArgumentException("Vk id of contact is unset");
                 }
             }
         }
@@ -152,7 +187,7 @@ namespace ContactsApp
                 }
                 else
                 {
-                    throw new ArgumentException("Дата рождения не может быть больше текущей даты и меньше 1900 года");
+                    throw new ArgumentException("Birth date can't be more then current date and less then 1900 year");
                 }
             }
         }
@@ -184,9 +219,9 @@ namespace ContactsApp
         /// <param name="parameter">Входной параметр строкового значения.</param>
         /// <param name="target">Установленное ограничение на длину параметра.</param>
         /// <returns></returns>
-        private bool IsLonger(string parameter, int target)
+        private bool IsLonger(int parameterLength, int target)
         {
-            return parameter.Length > target;
+            return parameterLength > target;
         }
 
         /// <summary>

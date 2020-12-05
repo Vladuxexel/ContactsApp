@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ContactsAppUI"
         mc:Ignorable="d"
-        Title="Add/Edit Contact" Height="280" Width="450" Background="#f0f0f0" WindowStartupLocation="CenterScreen"
+        Title="{Binding WindowName}" Height="280" Width="450" Background="#f0f0f0" WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize">
     <Grid Grid.Row="0" Margin="0 10 5 10">
         <Grid.ColumnDefinitions>
@@ -21,32 +21,36 @@
             <RowDefinition Height="30"/>
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
-        <Label VerticalAlignment="Center" Margin="0 2 0 0"
-               HorizontalAlignment="Right" Content="Surname:" Grid.Column="0" Grid.Row="0"/>
-        <TextBox x:Name="SurnameField" Text="{Binding Contact.Surname, Mode=TwoWay}" Grid.Column="1" Grid.Row="0" Margin="5"/>
-        <Label VerticalAlignment="Center" Margin="0 2 0 0"
-               HorizontalAlignment="Right" Content="Name:" Grid.Column="0" Grid.Row="1"/>
-        <TextBox x:Name="NameField" Text="{Binding Contact.Name, Mode=TwoWay}" Grid.Column="1" Grid.Row="1" Margin="5"/>
-        <Label VerticalAlignment="Center" Margin="0 2 0 0"
-               HorizontalAlignment="Right" Content="Birthday:" Grid.Column="0" Grid.Row="2"/>
-        <DatePicker x:Name="BirthDayDataPicker" SelectedDate="{Binding Contact.BirthDate, Mode=TwoWay}" Grid.Column="1" Grid.Row="2"
+        <Label Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" 
+               Margin="0 2 0 0" HorizontalAlignment="Right" Content="Surname:" />
+        <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Contact.Surname, Mode=TwoWay}" Margin="5"/>
+        <Label Grid.Column="0" Grid.Row="1" VerticalAlignment="Center"
+               Margin="0 2 0 0" HorizontalAlignment="Right" Content="Name:" />
+        <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Contact.Name, Mode=TwoWay}" Margin="5"/>
+        <Label Grid.Column="0" Grid.Row="2" VerticalAlignment="Center"
+               Margin="0 2 0 0" HorizontalAlignment="Right" Content="Birthday:"/>
+        <DatePicker Grid.Column="1" Grid.Row="2" SelectedDate="{Binding Contact.BirthDate, Mode=TwoWay}"
                     Margin="5" MaxWidth="200" HorizontalAlignment="Left"/>
-        <Label VerticalAlignment="Center" Margin="0 2 0 0"
-               HorizontalAlignment="Right" Content="Phone:" Grid.Column="0" Grid.Row="3"/>
-        <TextBox x:Name="PhoneField" Text="{Binding Contact.PhoneNumber.Number, Mode=TwoWay}" Grid.Column="1" Grid.Row="3" Margin="5"/>
-        <Label VerticalAlignment="Center" Margin="0 2 0 0"
-               HorizontalAlignment="Right" Content="E-mail:" Grid.Column="0" Grid.Row="4"/>
-        <TextBox x:Name="EmailField" Text="{Binding Contact.Email, Mode=TwoWay}" Grid.Column="1" Grid.Row="4" Margin="5"/>
-        <Label VerticalAlignment="Center" Margin="0 2 0 0"
-               HorizontalAlignment="Right" Content="vk.com:" Grid.Column="0" Grid.Row="5"/>
-        <TextBox x:Name="VkField" Text="{Binding Contact.VkId, Mode=TwoWay}" Grid.Column="1" Grid.Row="5" Margin="5"/>
+        <Label Grid.Column="0" Grid.Row="3" VerticalAlignment="Center"
+               Margin="0 2 0 0" HorizontalAlignment="Right" Content="Phone:"/>
+        <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Contact.PhoneNumber.Number, Mode=TwoWay}" Margin="5"/>
+        <Label Grid.Column="0" Grid.Row="4" VerticalAlignment="Center"
+               Margin="0 2 0 0" HorizontalAlignment="Right" Content="E-mail:"/>
+        <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding Contact.Email, Mode=TwoWay}" Margin="5"/>
+        <Label Grid.Column="0" Grid.Row="5" VerticalAlignment="Center"
+               Margin="0 2 0 0" HorizontalAlignment="Right" Content="vk.com:"/>
+        <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding Contact.VkId, Mode=TwoWay}" Margin="5"/>
         <Grid Grid.Column="1" Grid.Row="6" HorizontalAlignment="Right">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Content="Ok" Command="{Binding ApplyChangesCommand}" Height="23" Width="100" HorizontalAlignment="Right" Margin="5"/>
-            <Button Grid.Column="1" Content="Cancel" Height="23" Width="100" HorizontalAlignment="Right" Margin="5"/>
+            <Button Grid.Column="0" Content="Ok" Command="{Binding SaveContactCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                    Height="23" Width="100" HorizontalAlignment="Right" Margin="5"/>
+            <Button Grid.Column="1" Content="Cancel" Command="{Binding CancelCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                    Height="23" Width="100" HorizontalAlignment="Right" Margin="5"/>
         </Grid>
     </Grid>
 </Window>
