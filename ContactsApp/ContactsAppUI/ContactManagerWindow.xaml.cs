@@ -20,10 +20,13 @@ namespace ContactsAppUI
     /// </summary>
     public partial class ContactManagerWindow : Window
     {
+        public Contact Contact { get; set; }
+
         public ContactManagerWindow(Contact contact)
         {
+            Contact = contact;
             InitializeComponent();
-            DataContext = new ContactManagerWindowVM(contact);
+            DataContext = new ContactManagerWindowVM(Contact);
         }
     }
 }

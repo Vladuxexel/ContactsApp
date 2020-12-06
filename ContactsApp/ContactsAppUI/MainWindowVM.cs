@@ -63,7 +63,7 @@ namespace ContactsAppUI
                         ContactWindow.ShowDialog();
                         if (ContactWindow.DialogResult == true)
                         {
-                            Project.Contacts.Add(ProjectManager.TempContact);
+                            Project.Contacts.Add(ContactWindow.Contact);
                         }
                     }));
             }

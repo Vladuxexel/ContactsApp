@@ -60,7 +60,7 @@ namespace ContactsAppUI
                         {
                             try
                             {
-                                ProjectManager.TempContact = new Contact()
+                                Contact = new Contact()
                                 {
                                     Surname = Contact.Surname,
                                     Name = Contact.Name,
@@ -91,11 +91,6 @@ namespace ContactsAppUI
                         ((Window)obj).Close();
                     }));
             }
-        }
-
-        private void CheckValues()
-        {
-
         }
 
         /// <summary>

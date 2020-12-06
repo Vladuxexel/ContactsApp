@@ -24,21 +24,14 @@ namespace ContactsApp
             get => _number;
             set
             {
-                if (value == 0)
+                if ((value.ToString().Length == 11) && (value.ToString()[0] == '7'))
                 {
-                    throw new ArgumentException("Phone number is unset");
+                    _number = value;
+                    OnPropertyChanged(nameof(Number));
                 }
                 else
                 {
-                    if ((value.ToString().Length == 11) && (value.ToString()[0] == '7'))
-                    {
-                        _number = value;
-                        OnPropertyChanged(nameof(Number));
-                    }
-                    else
-                    {
-                        throw new ArgumentException("Phone number must begin begin from 7 and it's length must be 11");
-                    }
+                    throw new ArgumentException("Phone number must begin begin from 7 and it's length must be 11");
                 }
             }
         }
