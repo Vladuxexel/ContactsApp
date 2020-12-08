@@ -13,7 +13,7 @@ namespace ContactsAppUI
 {
     public class ContactManagerWindowVM : INotifyPropertyChanged
     {
-        private Contact _contact;
+        private ValidatableContact _contact;
 
         private RelayCommand _saveContactCommand;
 
@@ -23,7 +23,7 @@ namespace ContactsAppUI
 
         public string WindowName { get; set; }
 
-        public Contact Contact
+        public ValidatableContact Contact
         {
             get => _contact;
             set
@@ -38,12 +38,17 @@ namespace ContactsAppUI
             _editMode = (contact.Surname != null);
             WindowName = _editMode ? $"Edit contact {contact.Surname}" : "Add new contact";
 
-            Contact = contact;
-
             if (!_editMode)
             {
-                Contact.BirthDate = new DateTime(2000, 1, 1);
-                Contact.PhoneNumber = new PhoneNumber();
+                Contact = new ValidatableContact
+                {
+                    BirthDate = new DateTime(2000, 1, 1),
+                    PhoneNumber = new ValidatablePhoneNumber()
+                };
+            }
+            else
+            {
+                Contact = new ValidatableContact(contact);
             }
         }
 
@@ -63,8 +68,21 @@ namespace ContactsAppUI
                             ((Window)obj).DialogResult = true;
                             ((Window)obj).Close();
                         }
-                    }));
+                    }, obj => (Contact.Error == null) && IsFullFiled(Contact)));
             }
+        }
+
+        private bool IsFullFiled(ValidatableContact contact)
+        {
+            return contact.Surname != null &&
+                    contact.Name != null &&
+                    contact.BirthDate != null &&
+                    contact.PhoneNumber != null &&
+                    contact.PhoneNumber.Number != 0 &&
+                    contact.PhoneNumber.Number.ToString()[0] == '7' &&
+                    contact.PhoneNumber.Number.ToString().Length == 11 &&
+                    contact.Email != null &&
+                    contact.VkId != null;
         }
 
         public RelayCommand CancelCommand

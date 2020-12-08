@@ -127,7 +127,7 @@ namespace ContactsApp
 
         /// <summary>
         /// Свойство даты рождения контакта.
-        /// Устанавливает значение даты рождения контакта, если оно меньше текущей даты и его год болше 1900.
+        /// Устанавливает значение даты рождения контакта, если оно меньше текущей даты и его год больше 1900.
         /// </summary>
         public DateTime BirthDate
         {
@@ -162,17 +162,6 @@ namespace ContactsApp
                 VkId = this.VkId,
                 BirthDate = this.BirthDate
             };
-        }
-
-        /// <summary>
-        /// Метод, проверяющий, не привышает ли длина входного параметра установленное ограничение.
-        /// </summary>
-        /// <param name="parameter">Входной параметр строкового значения.</param>
-        /// <param name="target">Установленное ограничение на длину параметра.</param>
-        /// <returns></returns>
-        private bool IsLonger(int parameterLength, int target)
-        {
-            return parameterLength > target;
         }
 
         /// <summary>
