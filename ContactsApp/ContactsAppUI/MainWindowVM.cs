@@ -36,7 +36,10 @@ namespace ContactsAppUI
         public MainWindowVM()
         {
             Project = ProjectManager.LoadFromFile(ProjectManager.PathFile());
-            SelectedContact = Project.Contacts.First();
+            if (Project.Contacts.Count > 0)
+            {
+                SelectedContact = Project.Contacts.First();
+            }
         }
 
         public RelayCommand EditContactCommand
@@ -64,6 +67,7 @@ namespace ContactsAppUI
                         if (ContactWindow.DialogResult == true)
                         {
                             Project.Contacts.Add(ContactWindow.Contact);
+                            ProjectManager.SaveToFile(Project, ProjectManager.PathFile());
                         }
                     }));
             }

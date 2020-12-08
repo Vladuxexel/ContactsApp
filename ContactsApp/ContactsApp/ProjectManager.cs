@@ -38,6 +38,8 @@ namespace ContactsApp
         /// <param name="filepath">Путь до файла</param>
         public static void SaveToFile(Project project, string filepath)
         {
+            if (project.Contacts.Count >= 200) throw new ArgumentException("Maximum number of contacts is exceeded");
+
             try
             {
                 var serializer = new JsonSerializer();

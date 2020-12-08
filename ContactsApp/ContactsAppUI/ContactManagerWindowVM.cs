@@ -33,11 +33,13 @@ namespace ContactsAppUI
             }
         }
 
-        public ContactManagerWindowVM (Contact contact)
+        public ContactManagerWindowVM(Contact contact)
         {
+            _editMode = (contact.Surname != null);
+            WindowName = _editMode ? $"Edit contact {contact.Surname}" : "Add new contact";
+
             Contact = contact;
-            _editMode = (Contact.Surname != null);
-            WindowName = _editMode ? $"Edit {Contact.Surname}" : "Add contact";
+
             if (!_editMode)
             {
                 Contact.BirthDate = new DateTime(2000, 1, 1);
@@ -58,24 +60,8 @@ namespace ContactsAppUI
                         }
                         else
                         {
-                            try
-                            {
-                                Contact = new Contact()
-                                {
-                                    Surname = Contact.Surname,
-                                    Name = Contact.Name,
-                                    BirthDate = Contact.BirthDate,
-                                    PhoneNumber = new PhoneNumber() { Number = Contact.PhoneNumber.Number },
-                                    Email = Contact.Email,
-                                    VkId = Contact.VkId
-                                };
-                                ((Window)obj).DialogResult = true;
-                                ((Window)obj).Close();
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show(ex.Message.ToString());
-                            }
+                            ((Window)obj).DialogResult = true;
+                            ((Window)obj).Close();
                         }
                     }));
             }
@@ -86,7 +72,7 @@ namespace ContactsAppUI
             get
             {
                 return _cancelCommand ??
-                    (_cancelCommand = new RelayCommand(obj => 
+                    (_cancelCommand = new RelayCommand(obj =>
                     {
                         ((Window)obj).Close();
                     }));

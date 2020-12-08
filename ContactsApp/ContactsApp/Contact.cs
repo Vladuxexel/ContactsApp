@@ -43,19 +43,13 @@ namespace ContactsApp
         /// <summary>
         /// Номер телефона контакта.
         /// </summary>
-        public PhoneNumber PhoneNumber {
+        public PhoneNumber PhoneNumber
+        {
             get => _phoneNumber;
             set
             {
-                if (value != null)
-                {
-                    _phoneNumber = value;
-                    OnPropertyChanged(nameof(PhoneNumber));
-                }
-                else
-                {
-                    throw new ArgumentException("Phone number is unset");
-                }
+                _phoneNumber = value ?? throw new ArgumentException("Phone number is unset");
+                OnPropertyChanged(nameof(PhoneNumber));
             }
         }
 
@@ -68,22 +62,12 @@ namespace ContactsApp
             get => _surname;
             set
             {
-                if (value != "" && value != null)
-                {
-                    if (!IsLonger(value.Length, 50))
-                    {
-                        _surname = char.ToUpper(value[0]) + value.Substring(1);
-                        OnPropertyChanged(nameof(Surname));
-                    }
-                    else
-                    {
-                        throw new ArgumentException("Length of surname can't be more than 50");
-                    }
-                }
-                else
-                {
-                    throw new ArgumentException("Surname of contact is unset");
-                }
+                if (string.IsNullOrWhiteSpace(value)) throw new ArgumentException("Surname is unset");
+
+                if (value.Length > 50) throw new ArgumentException("Length of surname can't exceed 50 characters");
+
+                _surname = char.ToUpper(value[0]) + value.Substring(1);
+                OnPropertyChanged(nameof(Surname));
             }
         }
 
@@ -96,22 +80,12 @@ namespace ContactsApp
             get => _name;
             set
             {
-                if (value != "" && value != null)
-                {
-                    if (!IsLonger(value.Length, 50))
-                    {
-                        _name = char.ToUpper(value[0]) + value.Substring(1);
-                        OnPropertyChanged(nameof(Name));
-                    }
-                    else
-                    {
-                        throw new ArgumentException("Length of name can't be more than 50");
-                    }
-                }
-                else
-                {
-                    throw new ArgumentException("Name of contact is unset");
-                }
+                if (string.IsNullOrWhiteSpace(value)) throw new ArgumentException("Name is unset");
+
+                if (value.Length > 50) throw new ArgumentException("Length of name can't exceed 50 characters");
+
+                _name = char.ToUpper(value[0]) + value.Substring(1);
+                OnPropertyChanged(nameof(Name));
             }
         }
 
@@ -124,22 +98,12 @@ namespace ContactsApp
             get => _email;
             set
             {
-                if (value != "" && value != null)
-                {
-                    if (!IsLonger(value.Length, 50))
-                    {
-                        _email = value;
-                        OnPropertyChanged(nameof(Email));
-                    }
-                    else
-                    {
-                        throw new ArgumentException("Length of e-mail can't be more than 50");
-                    }
-                }
-                else
-                {
-                    throw new ArgumentException("Email of contact is unset");
-                }
+                if (string.IsNullOrWhiteSpace(value)) throw new ArgumentException("E-mail is unset");
+
+                if (value.Length > 50) throw new ArgumentException("Length of E-mail can't exceed 50 characters");
+
+                _email = value;
+                OnPropertyChanged(nameof(Email));
             }
         }
 
@@ -152,22 +116,12 @@ namespace ContactsApp
             get => _vkId;
             set
             {
-                if (value != "" && value != null)
-                {
-                    if (!IsLonger(value.Length, 15))
-                    {
-                        _vkId = value;
-                        OnPropertyChanged(nameof(VkId));
-                    }
-                    else
-                    {
-                        throw new ArgumentException("Length of vk id can't be more than 15");
-                    }
-                }
-                else
-                {
-                    throw new ArgumentException("Vk id of contact is unset");
-                }
+                if (string.IsNullOrWhiteSpace(value)) throw new ArgumentException("Vk Id is unset");
+
+                if (value.Length > 15) throw new ArgumentException("Length of Vk Id can't exceed 15 characters");
+
+                _vkId = value;
+                OnPropertyChanged(nameof(VkId));
             }
         }
 
@@ -180,15 +134,12 @@ namespace ContactsApp
             get => _birthDate;
             set
             {
-                if (value < DateTime.Today && value.Year > 1900)
-                {
-                    _birthDate = value;
-                    OnPropertyChanged(nameof(BirthDate));
-                }
-                else
-                {
-                    throw new ArgumentException("Birth date can't be more then current date and less then 1900 year");
-                }
+                if (value >= DateTime.Today) throw new ArgumentException("Birth date can't exceed current date");
+
+                if (value.Year < 1900) throw new ArgumentException("Birth date can't be less then 1900 year");
+
+                _birthDate = value;
+                OnPropertyChanged(nameof(BirthDate));
             }
         }
 
@@ -200,7 +151,7 @@ namespace ContactsApp
         /// </returns>
         public object Clone()
         {
-            var phoneNumber = new PhoneNumber{Number = this.PhoneNumber.Number};
+            var phoneNumber = new PhoneNumber { Number = this.PhoneNumber.Number };
 
             return new Contact
             {

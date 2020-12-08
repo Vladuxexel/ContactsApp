@@ -24,15 +24,12 @@ namespace ContactsApp
             get => _number;
             set
             {
-                if ((value.ToString().Length == 11) && (value.ToString()[0] == '7'))
-                {
-                    _number = value;
-                    OnPropertyChanged(nameof(Number));
-                }
-                else
-                {
-                    throw new ArgumentException("Phone number must begin begin from 7 and it's length must be 11");
-                }
+                if (value.ToString().Length != 11) throw new ArgumentException("Phone number length must be 11");
+
+                if (value.ToString()[0] != '7') throw new ArgumentException("Phone number must start with 7");
+
+                _number = value;
+                OnPropertyChanged(nameof(Number));
             }
         }
 
