@@ -10,7 +10,7 @@ namespace ContactsAppUI
     /// <summary>
     /// Вью-модель окна добавления/редактирования.
     /// </summary>
-    public class ContactManagerWindowVM : INotifyPropertyChanged
+    public class ContactWindowVM : BaseINotifyClass
     {
         /// <summary>
         /// Поле контакта для временного хранения в целях валидации данных.
@@ -31,11 +31,6 @@ namespace ContactsAppUI
         /// Команда отмены редактирования и закрытия окна.
         /// </summary>
         private RelayCommand _cancelCommand;
-
-        /// <summary>
-        /// Поле определения режима (добавление/редактирование).
-        /// </summary>
-        private bool _editMode;
 
         /// <summary>
         /// Свойство названия окна.
@@ -71,26 +66,26 @@ namespace ContactsAppUI
         /// <summary>
         /// Конструктор класса вью-модели окна добавления/редактирования.
         /// </summary>
-        /// <param name="contact">Контак, полученный из гравного окна</param>
-        public ContactManagerWindowVM(Contact contact)
+        /// <param name="contact">Контакт, полученный из гравного окна</param>
+        public ContactWindowVM(Contact contact)
         {
-            _editMode = (contact.Surname != null);
-            WindowName = _editMode ? $"Edit contact {contact.Surname}" : "Add new contact";
-
             TrueContact = contact;
 
-            if (!_editMode)
+            try
+            {
+                Contact = new ValidatableContact(contact);
+                WindowName = $"Edit contact {contact.Surname}";
+            }
+            catch
             {
                 Contact = new ValidatableContact
                 {
                     BirthDate = new DateTime(2000, 1, 1),
                     PhoneNumber = new ValidatablePhoneNumber()
                 };
+                WindowName = "Add new contact";
             }
-            else
-            {
-                Contact = new ValidatableContact(contact);
-            }
+
         }
 
         /// <summary>
@@ -126,6 +121,7 @@ namespace ContactsAppUI
                 return _cancelCommand ??
                     (_cancelCommand = new RelayCommand(obj =>
                     {
+                        ((Window)obj).DialogResult = false;
                         ((Window)obj).Close();
                     }));
             }
@@ -147,21 +143,6 @@ namespace ContactsAppUI
                     contact.PhoneNumber.Number.ToString().Length == 11 &&
                     contact.Email != null &&
                     contact.VkId != null;
-        }
-
-        /// <summary>
-        /// Делегат, отслеживающий изменения свойств компонента.
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>
-        /// Метод, обрабатывающий изменение свойств компонента.
-        /// </summary>
-        /// <param name="propertyName">Имя свойства.</param>
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

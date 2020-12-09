@@ -1,14 +1,11 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using ContactsApp.Annotations;
 
 namespace ContactsApp
 {
     /// <summary>
     /// Класс контакта.
     /// </summary>
-    public class Contact : ICloneable, INotifyPropertyChanged
+    public class Contact : BaseINotifyClass, ICloneable
     {
         /// <summary>
         /// Фамилия контакта.
@@ -62,9 +59,15 @@ namespace ContactsApp
             get => _surname;
             set
             {
-                if (string.IsNullOrWhiteSpace(value)) throw new ArgumentException("Surname is unset");
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentException("Surname is unset");
+                }
 
-                if (value.Length > 50) throw new ArgumentException("Length of surname can't exceed 50 characters");
+                if (value.Length > 50)
+                {
+                    throw new ArgumentException("Length of surname can't exceed 50 characters");
+                }
 
                 _surname = char.ToUpper(value[0]) + value.Substring(1);
                 OnPropertyChanged(nameof(Surname));
@@ -80,9 +83,15 @@ namespace ContactsApp
             get => _name;
             set
             {
-                if (string.IsNullOrWhiteSpace(value)) throw new ArgumentException("Name is unset");
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentException("Name is unset");
+                }
 
-                if (value.Length > 50) throw new ArgumentException("Length of name can't exceed 50 characters");
+                if (value.Length > 50)
+                {
+                    throw new ArgumentException("Length of name can't exceed 50 characters");
+                }
 
                 _name = char.ToUpper(value[0]) + value.Substring(1);
                 OnPropertyChanged(nameof(Name));
@@ -98,9 +107,15 @@ namespace ContactsApp
             get => _email;
             set
             {
-                if (string.IsNullOrWhiteSpace(value)) throw new ArgumentException("E-mail is unset");
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentException("E-mail is unset");
+                }
 
-                if (value.Length > 50) throw new ArgumentException("Length of E-mail can't exceed 50 characters");
+                if (value.Length > 50)
+                {
+                    throw new ArgumentException("Length of E-mail can't exceed 50 characters");
+                }
 
                 _email = value;
                 OnPropertyChanged(nameof(Email));
@@ -116,9 +131,15 @@ namespace ContactsApp
             get => _vkId;
             set
             {
-                if (string.IsNullOrWhiteSpace(value)) throw new ArgumentException("Vk Id is unset");
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentException("Vk Id is unset");
+                }
 
-                if (value.Length > 15) throw new ArgumentException("Length of Vk Id can't exceed 15 characters");
+                if (value.Length > 15)
+                {
+                    throw new ArgumentException("Length of Vk Id can't exceed 15 characters");
+                }
 
                 _vkId = value;
                 OnPropertyChanged(nameof(VkId));
@@ -134,9 +155,15 @@ namespace ContactsApp
             get => _birthDate;
             set
             {
-                if (value >= DateTime.Today) throw new ArgumentException("Birth date can't exceed current date");
+                if (value >= DateTime.Now)
+                {
+                    throw new ArgumentException("Birth date can't exceed current date");
+                }
 
-                if (value.Year < 1900) throw new ArgumentException("Birth date can't be less then 1900 year");
+                if (value.Year < 1900)
+                {
+                    throw new ArgumentException("Birth date can't be less then 1900 year");
+                }
 
                 _birthDate = value;
                 OnPropertyChanged(nameof(BirthDate));
@@ -151,7 +178,7 @@ namespace ContactsApp
         /// </returns>
         public object Clone()
         {
-            var phoneNumber = new PhoneNumber { Number = this.PhoneNumber.Number };
+            var phoneNumber = this.PhoneNumber == null ? new PhoneNumber() : new PhoneNumber { Number = this.PhoneNumber.Number };
 
             return new Contact
             {
@@ -162,21 +189,6 @@ namespace ContactsApp
                 VkId = this.VkId,
                 BirthDate = this.BirthDate
             };
-        }
-
-        /// <summary>
-        /// Делегат, отслеживающий изменения свойств компонента.
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>
-        /// Метод, обрабатывающий изменение свойств компонента.
-        /// </summary>
-        /// <param name="propertyName">Имя свойства.</param>
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

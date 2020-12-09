@@ -7,7 +7,7 @@ namespace ContactsAppUI
     /// <summary>
     /// Класс для манипуляций над валидируемым контактом.
     /// </summary>
-    public class ValidatableContact : INotifyPropertyChanged, IDataErrorInfo
+    public class ValidatableContact : BaseINotifyClass, IDataErrorInfo
     {
         /// <summary>
         /// Фамилия контакта.
@@ -39,6 +39,9 @@ namespace ContactsAppUI
         /// </summary>
         private ValidatablePhoneNumber _phoneNumber;
 
+        /// <summary>
+        /// Свойство ошибки.
+        /// </summary>
         public string Error { get; private set; }
 
 
@@ -173,7 +176,7 @@ namespace ContactsAppUI
                         }
                         break;
                     case "BirthDate":
-                        if (BirthDate >= DateTime.Today)
+                        if (BirthDate >= DateTime.Now)
                         {
                             error = "Birth date can't exceed current date";
                         }
@@ -213,20 +216,6 @@ namespace ContactsAppUI
                 Error = error;
                 return error;
             }
-        }
-
-        /// <summary>
-        /// Делегат, отслеживающий изменения свойств компонента.
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>
-        /// Метод, обрабатывающий изменение свойств компонента.
-        /// </summary>
-        /// <param name="propertyName">Имя свойства.</param>
-        protected virtual void OnPropertyChanged(string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

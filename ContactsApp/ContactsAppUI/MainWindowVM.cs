@@ -1,5 +1,4 @@
 ﻿using ContactsApp;
-using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 
@@ -8,7 +7,7 @@ namespace ContactsAppUI
     /// <summary>
     /// Вью-модель главного окна.
     /// </summary>
-    public class MainWindowVM : INotifyPropertyChanged
+    public class MainWindowVM : BaseINotifyClass
     {
         /// <summary>
         /// Поле выбранного контакта.
@@ -167,12 +166,6 @@ namespace ContactsAppUI
                         aboutWindow.ShowDialog();
                     }));
             }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

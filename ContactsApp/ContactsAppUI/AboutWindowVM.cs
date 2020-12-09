@@ -25,7 +25,7 @@
                 return _goToMailCommand ??
                     (_goToMailCommand = new RelayCommand(obj =>
                     {
-                        System.Diagnostics.Process.Start("https://www.google.com/intl/ru/gmail/about/policy/");
+                        System.Diagnostics.Process.Start("mailto:vladuxexel@gmail.com");
                     }));
             }
         }
@@ -38,7 +38,7 @@
             get
             {
                 return _goToGitCommand ??
-                    (_goToGitCommand = new RelayCommand(obj =>
+                   (_goToGitCommand = new RelayCommand(obj =>
                    {
                        System.Diagnostics.Process.Start("https://github.com/Vladuxexel/ContactsApp");
                    }));

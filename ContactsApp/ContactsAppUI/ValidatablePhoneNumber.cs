@@ -1,22 +1,22 @@
-﻿using System.ComponentModel;
+﻿using ContactsApp;
+using System.ComponentModel;
 
 namespace ContactsAppUI
 {
     /// <summary>
     /// Класс для манипуляций над валидируемым номером телефона.
     /// </summary>
-    public class ValidatablePhoneNumber : IDataErrorInfo
+    public class ValidatablePhoneNumber : BaseINotifyClass, IDataErrorInfo
     {
-        /// <summary>
-        /// Свойство ошибки.
-        /// </summary>
-        public string Error { get { return null; } }
-
         /// <summary>
         /// Номер телефона.
         /// </summary>
         private long _number;
 
+        /// <summary>
+        /// Свойство ошибки.
+        /// </summary>
+        public string Error { get => null; }
 
         /// <summary>
         /// Свойство номера телефона.
@@ -63,20 +63,6 @@ namespace ContactsAppUI
 
                 return error;
             }
-        }
-
-        /// <summary>
-        /// Делегат, отслеживающий изменения свойств компонента.
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>
-        /// Метод, обрабатывающий изменение свойств компонента.
-        /// </summary>
-        /// <param name="propertyName">Имя свойства.</param>
-        protected virtual void OnPropertyChanged(string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

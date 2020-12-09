@@ -66,7 +66,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AboutWindowVM.cs" />
-    <Compile Include="ContactManagerWindowVM.cs" />
+    <Compile Include="ContactWindowVM.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="ValidatableContact.cs" />
     <Compile Include="ValidatablePhoneNumber.cs" />
@@ -74,7 +74,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ContactManagerWindow.xaml">
+    <Page Include="ContactWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -89,8 +89,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ContactManagerWindow.xaml.cs">
-      <DependentUpon>ContactManagerWindow.xaml</DependentUpon>
+    <Compile Include="ContactWindow.xaml.cs">
+      <DependentUpon>ContactWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="DateConverter.cs" />
     <Compile Include="MainWindow.xaml.cs">

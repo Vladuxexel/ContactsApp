@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace ContactsApp
 {
@@ -14,16 +10,15 @@ namespace ContactsApp
     public static class ProjectManager
     {
         /// <summary>
-        /// Путь по умолчанию по которому сохраняется файл.
+        /// Путь по умолчанию, по которому сохраняется файл.
         /// </summary>
         public static string PathFile()
         {
-            var path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            return path + @"\ContactsApp\Contacts.json";
+            return PathDirectory() + @"\Contacts.json";
         }
 
         /// <summary>
-        /// Путь по умолчанию по которому создается папка для файла.
+        /// Путь по умолчанию, по которому создается папка для файла.
         /// </summary>
         public static string PathDirectory()
         {
@@ -38,7 +33,10 @@ namespace ContactsApp
         /// <param name="filepath">Путь до файла</param>
         public static void SaveToFile(Project project, string filepath)
         {
-            if (project.Contacts.Count >= 200) throw new ArgumentException("Maximum number of contacts is exceeded");
+            if (project.Contacts.Count >= 200)
+            {
+                throw new ArgumentException("Maximum number of contacts is exceeded");
+            }
 
             try
             {

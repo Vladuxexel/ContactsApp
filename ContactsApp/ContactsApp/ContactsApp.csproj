@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseINotifyClass.cs" />
     <Compile Include="Contact.cs" />
     <Compile Include="PhoneNumber.cs" />
     <Compile Include="Project.cs" />

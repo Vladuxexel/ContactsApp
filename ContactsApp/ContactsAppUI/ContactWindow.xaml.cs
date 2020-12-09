@@ -26,7 +26,7 @@ namespace ContactsAppUI
         {
             Contact = contact;
             InitializeComponent();
-            DataContext = new ContactManagerWindowVM(Contact);
+            DataContext = new ContactWindowVM(Contact);
         }
     }
 }
