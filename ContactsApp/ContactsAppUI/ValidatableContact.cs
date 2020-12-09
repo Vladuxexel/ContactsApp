@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace ContactsAppUI
 {
+    /// <summary>
+    /// Класс для манипуляций над валидируемым контактом.
+    /// </summary>
     public class ValidatableContact : INotifyPropertyChanged, IDataErrorInfo
     {
         /// <summary>
@@ -56,6 +59,9 @@ namespace ContactsAppUI
             }
         }
 
+        /// <summary>
+        /// Свойство Фамилии контакта.
+        /// </summary>
         public string Surname
         {
             get => _surname;
@@ -118,7 +124,15 @@ namespace ContactsAppUI
             }
         }
 
+        /// <summary>
+        /// Конструктор класса по умолчанию.
+        /// </summary>
         public ValidatableContact() { }
+
+        /// <summary>
+        /// Конструктор с параметром
+        /// </summary>
+        /// <param name="contact">Валидируемый контакт</param>
         public ValidatableContact(Contact contact)
         {
             Surname = contact.Surname;
@@ -129,6 +143,11 @@ namespace ContactsAppUI
             VkId = contact.VkId;
         }
 
+        /// <summary>
+        /// Реализация IDataErrorInfo
+        /// </summary>
+        /// <param name="propertyName">Изменяемое свойство</param>
+        /// <returns>Ошибка (при наличии)</returns>
         public string this[string propertyName]
         {
             get

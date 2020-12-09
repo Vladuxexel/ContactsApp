@@ -30,15 +30,16 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top" Height="25" VerticalAlignment="Top" Grid.Row="0" Grid.ColumnSpan="2">
             <MenuItem Header="File">
-                <MenuItem Header="Exit (Alt+F4)"/>
+                <MenuItem Header="Exit" Command="{Binding ExitApplicationCommand}"
+                          CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"/>
             </MenuItem>
             <MenuItem Header="Edit">
-                <MenuItem Header="Add Contact"/>
-                <MenuItem Header="Edit Contact"/>
-                <MenuItem Header="Remove Contact"/>
+                <MenuItem Header="Add Contact" Command="{Binding AddContactCommand}"/>
+                <MenuItem Header="Edit Contact" Command="{Binding EditContactCommand}"/>
+                <MenuItem Header="Remove Contact" Command="{Binding DeleteContactCommand}"/>
             </MenuItem>
             <MenuItem Header="Help">
-                <MenuItem Header="About (F1)"/>
+                <MenuItem Header="About" Command="{Binding ShowAboutCommand}"/>
             </MenuItem>
         </Menu>
         <Grid>

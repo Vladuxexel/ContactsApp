@@ -7,6 +7,9 @@
         mc:Ignorable="d"
         Title="About" Height="300" Width="350" Background="#f0f0f0" WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize">
+    <Window.DataContext>
+        <local:AboutWindowVM/>
+    </Window.DataContext>
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -21,10 +24,10 @@
         <TextBlock Grid.Row="1" Text="v 1.1.0"/>
         <TextBlock Grid.Row="2" Text="Author: Vladislav Bondar"/>
         <TextBlock Grid.Row="3">
-            Email for feedback: <Hyperlink>vladuxexel@gmail.com</Hyperlink>
+            Email for feedback: <Hyperlink Command="{Binding GoToMailCommand}">vladuxexel@gmail.com</Hyperlink>
         </TextBlock>
         <TextBlock Grid.Row="4">
-            GitHub: <Hyperlink NavigateUri="https://github.com/Vladuxexel/ContactsApp">Vladuxexel/ContactsApp</Hyperlink>
+            GitHub: <Hyperlink Command="{Binding GoToGitCommand}">Vladuxexel/ContactsApp</Hyperlink>
         </TextBlock>
         <TextBlock Grid.Row="6" VerticalAlignment="Bottom" Text="2020 Bondar Vladislav"/>
     </Grid>

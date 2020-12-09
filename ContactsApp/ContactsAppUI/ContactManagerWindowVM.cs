@@ -1,30 +1,50 @@
 ﻿using ContactsApp;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel;
 using ContactsApp.Annotations;
+using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 
 namespace ContactsAppUI
 {
+    /// <summary>
+    /// Вью-модель окна добавления/редактирования.
+    /// </summary>
     public class ContactManagerWindowVM : INotifyPropertyChanged
     {
+        /// <summary>
+        /// Поле контакта для временного хранения в целях валидации данных.
+        /// </summary>
         private Contact _trueContact;
 
+        /// <summary>
+        /// Поле контакта для работы в рамках данного окна.
+        /// </summary>
         private ValidatableContact _contact;
 
+        /// <summary>
+        /// Команда сохранения контакта.
+        /// </summary>
         private RelayCommand _saveContactCommand;
 
+        /// <summary>
+        /// Команда отмены редактирования и закрытия окна.
+        /// </summary>
         private RelayCommand _cancelCommand;
 
+        /// <summary>
+        /// Поле определения режима (добавление/редактирование).
+        /// </summary>
         private bool _editMode;
 
+        /// <summary>
+        /// Свойство названия окна.
+        /// </summary>
         public string WindowName { get; set; }
 
+        /// <summary>
+        /// Свойство контакта для временного хранения в целях валидации данных.
+        /// </summary>
         public Contact TrueContact
         {
             get => _trueContact;
@@ -35,6 +55,9 @@ namespace ContactsAppUI
             }
         }
 
+        /// <summary>
+        /// Свойство контакта для работы в рамках данного окна.
+        /// </summary>
         public ValidatableContact Contact
         {
             get => _contact;
@@ -45,6 +68,10 @@ namespace ContactsAppUI
             }
         }
 
+        /// <summary>
+        /// Конструктор класса вью-модели окна добавления/редактирования.
+        /// </summary>
+        /// <param name="contact">Контак, полученный из гравного окна</param>
         public ContactManagerWindowVM(Contact contact)
         {
             _editMode = (contact.Surname != null);
@@ -66,6 +93,9 @@ namespace ContactsAppUI
             }
         }
 
+        /// <summary>
+        /// Свойство команды сохранения контакта.
+        /// </summary>
         public RelayCommand SaveContactCommand
         {
             get
@@ -86,6 +116,26 @@ namespace ContactsAppUI
             }
         }
 
+        /// <summary>
+        /// Команда закрытия окна добавления/редактирования
+        /// </summary>
+        public RelayCommand CancelCommand
+        {
+            get
+            {
+                return _cancelCommand ??
+                    (_cancelCommand = new RelayCommand(obj =>
+                    {
+                        ((Window)obj).Close();
+                    }));
+            }
+        }
+
+        /// <summary>
+        /// Метод проверки полей контакта на заполненность.
+        /// </summary>
+        /// <param name="contact">Контакт</param>
+        /// <returns>Заполнены ли все поля контакта</returns>
         private bool IsFullFiled(ValidatableContact contact)
         {
             return contact.Surname != null &&
@@ -97,18 +147,6 @@ namespace ContactsAppUI
                     contact.PhoneNumber.Number.ToString().Length == 11 &&
                     contact.Email != null &&
                     contact.VkId != null;
-        }
-
-        public RelayCommand CancelCommand
-        {
-            get
-            {
-                return _cancelCommand ??
-                    (_cancelCommand = new RelayCommand(obj =>
-                    {
-                        ((Window)obj).Close();
-                    }));
-            }
         }
 
         /// <summary>
