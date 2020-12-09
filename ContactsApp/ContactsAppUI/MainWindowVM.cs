@@ -51,6 +51,16 @@ namespace ContactsAppUI
                     {
                         ContactWindow = new ContactManagerWindow(SelectedContact.Clone() as Contact);
                         ContactWindow.ShowDialog();
+                        if (ContactWindow.DialogResult == true)
+                        {
+                            SelectedContact.Surname = ContactWindow.Contact.Surname;
+                            SelectedContact.Name = ContactWindow.Contact.Name;
+                            SelectedContact.BirthDate = ContactWindow.Contact.BirthDate;
+                            SelectedContact.PhoneNumber = ContactWindow.Contact.PhoneNumber;
+                            SelectedContact.Email = ContactWindow.Contact.Email;
+                            SelectedContact.VkId = ContactWindow.Contact.VkId;
+                            ProjectManager.SaveToFile(Project, ProjectManager.PathFile());
+                        }
                     }));
             }
         }

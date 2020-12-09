@@ -13,6 +13,8 @@ namespace ContactsAppUI
 {
     public class ContactManagerWindowVM : INotifyPropertyChanged
     {
+        private Contact _trueContact;
+
         private ValidatableContact _contact;
 
         private RelayCommand _saveContactCommand;
@@ -22,6 +24,16 @@ namespace ContactsAppUI
         private bool _editMode;
 
         public string WindowName { get; set; }
+
+        public Contact TrueContact
+        {
+            get => _trueContact;
+            set
+            {
+                _trueContact = value;
+                OnPropertyChanged(nameof(TrueContact));
+            }
+        }
 
         public ValidatableContact Contact
         {
@@ -37,6 +49,8 @@ namespace ContactsAppUI
         {
             _editMode = (contact.Surname != null);
             WindowName = _editMode ? $"Edit contact {contact.Surname}" : "Add new contact";
+
+            TrueContact = contact;
 
             if (!_editMode)
             {
@@ -59,16 +73,16 @@ namespace ContactsAppUI
                 return _saveContactCommand ??
                     (_saveContactCommand = new RelayCommand(obj =>
                     {
-                        if (_editMode)
-                        {
-                            MessageBox.Show("Contact has been changed!");
-                        }
-                        else
-                        {
-                            ((Window)obj).DialogResult = true;
-                            ((Window)obj).Close();
-                        }
-                    }, obj => (Contact.Error == null) && IsFullFiled(Contact)));
+                        TrueContact.Surname = Contact.Surname;
+                        TrueContact.Name = Contact.Name;
+                        TrueContact.BirthDate = Contact.BirthDate;
+                        TrueContact.PhoneNumber = new PhoneNumber() { Number = Contact.PhoneNumber.Number };
+                        TrueContact.Email = Contact.Email;
+                        TrueContact.VkId = Contact.VkId;
+                        ((Window)obj).DialogResult = true;
+                        ((Window)obj).Close();
+                    },
+                    obj => (Contact.Error == null) && IsFullFiled(Contact)));
             }
         }
 
