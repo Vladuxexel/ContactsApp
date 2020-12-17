@@ -96,7 +96,7 @@ namespace ContactsAppUI
         }
 
         /// <summary>
-        /// Свойство команды добавления контакта.
+        /// Свойство команды вызова окна для добавления контакта.
         /// </summary>
         public RelayCommand AddContactCommand
         {
