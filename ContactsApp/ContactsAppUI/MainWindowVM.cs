@@ -1,4 +1,5 @@
 ﻿using ContactsApp;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 
@@ -14,6 +15,17 @@ namespace ContactsAppUI
         /// </summary>
         private Contact _selectedContact;
 
+        /// <summary>
+        /// Поле текущего отображаемого списка контактов.
+        /// </summary>
+        private ObservableCollection<Contact> _contacts;
+
+        /// <summary>
+        /// Поле ключевого слова для поиска контактов по фамилии/имени.
+        /// </summary>
+        private string _searchKey;
+
+        #region Command declarations
         /// <summary>
         /// Команда редактирования контакта.
         /// </summary>
@@ -38,11 +50,25 @@ namespace ContactsAppUI
         /// Команда открытия окна "About"
         /// </summary>
         private RelayCommand _showAboutCommand;
+        #endregion
 
         /// <summary>
         /// Автосвойство проекта.
         /// </summary>
         public Project Project { get; set; }
+
+        /// <summary>
+        /// Свойство текущего отображаемого списка контактов.
+        /// </summary>
+        public ObservableCollection<Contact> Contacts 
+        { 
+            get => _contacts; 
+            set
+            {
+                _contacts = value;
+                OnPropertyChanged(nameof(Contacts));
+            } 
+        }
 
         /// <summary>
         /// Свойство выбранного контакта.
@@ -58,17 +84,33 @@ namespace ContactsAppUI
         }
 
         /// <summary>
+        /// Свойство ключевого слова для поиска контактов по фамилии/имени.
+        /// </summary>
+        public string SearchKey
+        {
+            get => _searchKey;
+            set
+            {
+                _searchKey = value;
+                UpdateCurrentList();
+                OnPropertyChanged(nameof(SearchKey));
+            }
+        }
+
+        /// <summary>
         /// Конструктор вью-модели главного окна.
         /// </summary>
         public MainWindowVM()
         {
             Project = ProjectManager.LoadFromFile(ProjectManager.PathFile());
-            if (Project.Contacts.Count > 0)
+            Contacts = Project.SortContactsBySurname(Project.Contacts);
+            if (Contacts.Count > 0)
             {
-                SelectedContact = Project.Contacts.First();
+                SelectedContact = Contacts.First();
             }
         }
 
+        #region Command inplementations
         /// <summary>
         /// Свойство команды редактирования контакта.
         /// </summary>
@@ -90,6 +132,7 @@ namespace ContactsAppUI
                             SelectedContact.Email = contactWindow.Contact.Email;
                             SelectedContact.VkId = contactWindow.Contact.VkId;
                             ProjectManager.SaveToFile(Project, ProjectManager.PathFile());
+                            UpdateCurrentList();
                         }
                     }));
             }
@@ -111,6 +154,7 @@ namespace ContactsAppUI
                         {
                             Project.Contacts.Add(contactWindow.Contact);
                             ProjectManager.SaveToFile(Project, ProjectManager.PathFile());
+                            UpdateCurrentList();
                         }
                     }));
             }
@@ -130,8 +174,8 @@ namespace ContactsAppUI
                             "Delete confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                         {
                             Project.Contacts.Remove(SelectedContact);
-                            SelectedContact = Project.Contacts.First();
                             ProjectManager.SaveToFile(Project, ProjectManager.PathFile());
+                            UpdateCurrentList();
                         }
                     }));
             }
@@ -165,6 +209,19 @@ namespace ContactsAppUI
                         var aboutWindow = new AboutWindow();
                         aboutWindow.ShowDialog();
                     }));
+            }
+        }
+        #endregion
+
+        /// <summary>
+        /// Метод обновления текущего списка контактов.
+        /// </summary>
+        private void UpdateCurrentList()
+        {
+            Contacts = Project.SortContactsBySurname(SearchKey);
+            if (Contacts.Count != 0)
+            {
+                SelectedContact = Contacts.First();
             }
         }
     }

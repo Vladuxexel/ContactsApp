@@ -57,7 +57,8 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Label Grid.Column="0" Content="Find:" HorizontalAlignment="Center" Margin="4 3 0 0"/>
-                    <TextBox Grid.Column="1" Margin="5 6 5 5"/>
+                    <TextBox Grid.Column="1" Text="{Binding SearchKey, UpdateSourceTrigger=PropertyChanged}"
+                             Margin="5 6 5 5"/>
                 </Grid>
                 <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
                     <Button Command="{Binding AddContactCommand}">
@@ -71,7 +72,7 @@
                     </Button>
                 </StackPanel>
                 <ListBox x:Name="ContactsListBox" Margin="5" 
-                         ItemsSource="{Binding Project.Contacts}" SelectedItem="{Binding SelectedContact}">
+                         ItemsSource="{Binding Contacts}" SelectedItem="{Binding SelectedContact}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>
