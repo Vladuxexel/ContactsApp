@@ -39,5 +39,15 @@ namespace ContactsApp
 
             return SortContactsBySurname(searchResult);
         }
+
+        public ObservableCollection<Contact> FindBirthdayContacts(DateTime dateToCompare)
+        {
+            var birthdayContacts = new ObservableCollection<Contact>(Contacts.Where(contact =>
+                contact.BirthDate.Month == dateToCompare.Month &&
+                contact.BirthDate.Day == dateToCompare.Day
+            ));
+
+            return SortContactsBySurname(birthdayContacts);
+        }
     }
 }

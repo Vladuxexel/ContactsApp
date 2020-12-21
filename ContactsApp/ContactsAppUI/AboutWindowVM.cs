@@ -1,4 +1,6 @@
-﻿namespace ContactsAppUI
+﻿using System.Windows;
+
+namespace ContactsAppUI
 {
     /// <summary>
     /// Вью-модель окна "About".
@@ -14,6 +16,11 @@
         /// Команда перехода в GitHub.
         /// </summary>
         private RelayCommand _goToGitCommand;
+
+        /// <summary>
+        /// Поле команды перехода на почту.
+        /// </summary>
+        private RelayCommand _cancelCommand;
 
         /// <summary>
         /// Свойство команды перехода на почту.
@@ -42,6 +49,22 @@
                    {
                        System.Diagnostics.Process.Start("https://github.com/Vladuxexel/ContactsApp");
                    }));
+            }
+        }
+
+        /// <summary>
+        /// Команда закрытия окна добавления/редактирования
+        /// </summary>
+        public RelayCommand CancelCommand
+        {
+            get
+            {
+                return _cancelCommand ??
+                    (_cancelCommand = new RelayCommand(obj =>
+                    {
+                        ((Window)obj).DialogResult = false;
+                        ((Window)obj).Close();
+                    }));
             }
         }
     }

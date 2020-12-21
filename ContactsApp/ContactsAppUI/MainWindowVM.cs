@@ -1,4 +1,6 @@
 ﻿using ContactsApp;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -23,7 +25,14 @@ namespace ContactsAppUI
         /// <summary>
         /// Поле ключевого слова для поиска контактов по фамилии/имени.
         /// </summary>
-        private string _searchKey;
+        private string _searchKey = "";
+
+        /// <summary>
+        /// Поле для хранения фамилий именинников.
+        /// </summary>
+        private string _birthdaySurnames;
+
+        private string _birthdayToday;
 
         #region Command declarations
         /// <summary>
@@ -98,6 +107,29 @@ namespace ContactsAppUI
         }
 
         /// <summary>
+        /// Свойство для хранения фамилий именинников.
+        /// </summary>
+        public string BirthdaySurnames
+        {
+            get => _birthdaySurnames;
+            set
+            {
+                _birthdaySurnames = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string BirthdayToday
+        {
+            get => _birthdayToday;
+            set
+            {
+                _birthdayToday = value;
+                OnPropertyChanged(nameof(BirthdayToday));
+            }
+        }
+
+        /// <summary>
         /// Конструктор вью-модели главного окна.
         /// </summary>
         public MainWindowVM()
@@ -108,6 +140,7 @@ namespace ContactsAppUI
             {
                 SelectedContact = Contacts.First();
             }
+            GetBirthdaysContacts();
         }
 
         #region Command inplementations
@@ -132,6 +165,7 @@ namespace ContactsAppUI
                             SelectedContact.Email = contactWindow.Contact.Email;
                             SelectedContact.VkId = contactWindow.Contact.VkId;
                             ProjectManager.SaveToFile(Project, ProjectManager.PathFile());
+                            GetBirthdaysContacts();
                             UpdateCurrentList();
                         }
                     }));
@@ -154,6 +188,7 @@ namespace ContactsAppUI
                         {
                             Project.Contacts.Add(contactWindow.Contact);
                             ProjectManager.SaveToFile(Project, ProjectManager.PathFile());
+                            GetBirthdaysContacts();
                             UpdateCurrentList();
                         }
                     }));
@@ -175,6 +210,7 @@ namespace ContactsAppUI
                         {
                             Project.Contacts.Remove(SelectedContact);
                             ProjectManager.SaveToFile(Project, ProjectManager.PathFile());
+                            GetBirthdaysContacts();
                             UpdateCurrentList();
                         }
                     }));
@@ -212,6 +248,30 @@ namespace ContactsAppUI
             }
         }
         #endregion
+
+        private void GetBirthdaysContacts()
+        {
+            string birthdayToday = "Сегодня день рождения:" + "\n";
+
+            List<string> birthdaySurnames = new List<string>();
+
+            var birthdays = Project.FindBirthdayContacts(DateTime.Today);
+
+            foreach (var item in birthdays)
+            {
+                birthdaySurnames.Add(item.Surname);
+            }
+
+            if (birthdaySurnames.Count > 0)
+            {
+                BirthdaySurnames = birthdayToday + string.Join(", ", birthdaySurnames.ToArray());
+                BirthdayToday = "Visible";
+            }
+            else
+            {
+                BirthdayToday = "Hidden";
+            }
+        }
 
         /// <summary>
         /// Метод обновления текущего списка контактов.
