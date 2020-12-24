@@ -188,6 +188,7 @@ namespace ContactsAppUI
                         {
                             Project.Contacts.Add(contactWindow.Contact);
                             ProjectManager.SaveToFile(Project, ProjectManager.PathFile());
+                            SelectedContact = contactWindow.Contact;
                             GetBirthdaysContacts();
                             UpdateCurrentList();
                         }
@@ -210,6 +211,7 @@ namespace ContactsAppUI
                         {
                             Project.Contacts.Remove(SelectedContact);
                             ProjectManager.SaveToFile(Project, ProjectManager.PathFile());
+                            SelectedContact = Contacts.First();
                             GetBirthdaysContacts();
                             UpdateCurrentList();
                         }
@@ -279,10 +281,6 @@ namespace ContactsAppUI
         private void UpdateCurrentList()
         {
             Contacts = Project.SortContactsBySurname(SearchKey);
-            if (Contacts.Count != 0)
-            {
-                SelectedContact = Contacts.First();
-            }
         }
     }
 }
