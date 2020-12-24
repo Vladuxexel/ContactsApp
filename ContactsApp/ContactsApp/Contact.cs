@@ -190,5 +190,21 @@ namespace ContactsApp
                 BirthDate = this.BirthDate
             };
         }
+
+        public override bool Equals(object obj)
+        {
+            var toCompareWith = obj as Contact;
+            if (toCompareWith == null)
+            {
+                return false;
+            }
+
+            return Name == toCompareWith.Name &&
+                   Surname == toCompareWith.Surname &&
+                   PhoneNumber.Number == toCompareWith.PhoneNumber.Number &&
+                   VkId == toCompareWith.VkId &&
+                   Email == toCompareWith.Email &&
+                   BirthDate == toCompareWith.BirthDate;
+        }
     }
 }
