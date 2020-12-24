@@ -112,7 +112,7 @@ namespace ContactsAppUI
         public string BirthdaySurnames
         {
             get => _birthdaySurnames;
-            set
+            private set
             {
                 _birthdaySurnames = value;
                 OnPropertyChanged();
@@ -156,18 +156,16 @@ namespace ContactsAppUI
                     {
                         var contactWindow = new ContactManagerWindow(SelectedContact.Clone() as Contact);
                         contactWindow.ShowDialog();
-                        if (contactWindow.DialogResult == true)
-                        {
-                            SelectedContact.Surname = contactWindow.Contact.Surname;
-                            SelectedContact.Name = contactWindow.Contact.Name;
-                            SelectedContact.BirthDate = contactWindow.Contact.BirthDate;
-                            SelectedContact.PhoneNumber = contactWindow.Contact.PhoneNumber;
-                            SelectedContact.Email = contactWindow.Contact.Email;
-                            SelectedContact.VkId = contactWindow.Contact.VkId;
-                            ProjectManager.SaveToFile(Project, ProjectManager.PathFile());
-                            GetBirthdaysContacts();
-                            UpdateCurrentList();
-                        }
+                        if (contactWindow.DialogResult == false) return;
+                        SelectedContact.Surname = contactWindow.Contact.Surname;
+                        SelectedContact.Name = contactWindow.Contact.Name;
+                        SelectedContact.BirthDate = contactWindow.Contact.BirthDate;
+                        SelectedContact.PhoneNumber = contactWindow.Contact.PhoneNumber;
+                        SelectedContact.Email = contactWindow.Contact.Email;
+                        SelectedContact.VkId = contactWindow.Contact.VkId;
+                        ProjectManager.SaveToFile(Project, ProjectManager.PathFile());
+                        GetBirthdaysContacts();
+                        UpdateCurrentList();
                     }));
             }
         }
@@ -184,14 +182,12 @@ namespace ContactsAppUI
                     {
                         var contactWindow = new ContactManagerWindow(new Contact());
                         contactWindow.ShowDialog();
-                        if (contactWindow.DialogResult == true)
-                        {
-                            Project.Contacts.Add(contactWindow.Contact);
-                            ProjectManager.SaveToFile(Project, ProjectManager.PathFile());
-                            SelectedContact = contactWindow.Contact;
-                            GetBirthdaysContacts();
-                            UpdateCurrentList();
-                        }
+                        if (contactWindow.DialogResult == false) return;
+                        Project.Contacts.Add(contactWindow.Contact);
+                        ProjectManager.SaveToFile(Project, ProjectManager.PathFile());
+                        SelectedContact = contactWindow.Contact;
+                        GetBirthdaysContacts();
+                        UpdateCurrentList();
                     }));
             }
         }
@@ -206,15 +202,15 @@ namespace ContactsAppUI
                 return _deleteContactCommand ??
                     (_deleteContactCommand = new RelayCommand(obj =>
                     {
-                        if (MessageBox.Show($"Are you sure you want to delete {SelectedContact.Surname} ?",
-                            "Delete confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-                        {
-                            Project.Contacts.Remove(SelectedContact);
-                            ProjectManager.SaveToFile(Project, ProjectManager.PathFile());
-                            SelectedContact = Contacts.First();
-                            GetBirthdaysContacts();
-                            UpdateCurrentList();
-                        }
+                        if (MessageBox.Show(
+                            $"Are you sure you want to delete {SelectedContact.Surname} ?",
+                            "Delete confirmation", MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+                            return;
+                        Project.Contacts.Remove(SelectedContact);
+                        ProjectManager.SaveToFile(Project, ProjectManager.PathFile());
+                        GetBirthdaysContacts();
+                        UpdateCurrentList();
+                        SelectedContact = Contacts.First();
                     }));
             }
         }
@@ -253,20 +249,16 @@ namespace ContactsAppUI
 
         private void GetBirthdaysContacts()
         {
-            string birthdayToday = "Сегодня день рождения:" + "\n";
-
-            List<string> birthdaySurnames = new List<string>();
+            const string birthdayToday = "Сегодня день рождения:" + "\n";
 
             var birthdays = Project.FindBirthdayContacts(DateTime.Today);
 
-            foreach (var item in birthdays)
-            {
-                birthdaySurnames.Add(item.Surname);
-            }
+            var birthdaySurnames = birthdays.Select(item => item.Surname).ToList();
 
             if (birthdaySurnames.Count > 0)
             {
-                BirthdaySurnames = birthdayToday + string.Join(", ", birthdaySurnames.ToArray());
+                BirthdaySurnames = birthdayToday + 
+                                   string.Join(", ", birthdaySurnames.ToArray());
                 BirthdayToday = "Visible";
             }
             else
@@ -280,7 +272,7 @@ namespace ContactsAppUI
         /// </summary>
         private void UpdateCurrentList()
         {
-            Contacts = Project.SortContactsBySurname(SearchKey);
+            Contacts = Project.SortContactsBySurname(SearchKey, Project);
         }
     }
 }

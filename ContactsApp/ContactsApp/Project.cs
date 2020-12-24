@@ -30,9 +30,9 @@ namespace ContactsApp
         /// </summary>
         /// <param name="searchKey">Ключевое слово для поиска</param>
         /// <returns>Отсотрированный результат поиска контактов</returns>
-        public ObservableCollection<Contact> SortContactsBySurname(string searchKey)
+        public ObservableCollection<Contact> SortContactsBySurname(string searchKey, Project project)
         {
-            var searchResult = new ObservableCollection<Contact>(Contacts.Where(contact => 
+            var searchResult = new ObservableCollection<Contact>(project.Contacts.Where(contact => 
                 contact.Surname.StartsWith(searchKey, StringComparison.OrdinalIgnoreCase) ||
                 contact.Name.StartsWith(searchKey, StringComparison.OrdinalIgnoreCase)
             ));

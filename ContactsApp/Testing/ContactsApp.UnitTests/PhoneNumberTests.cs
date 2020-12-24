@@ -4,29 +4,22 @@ using NUnit.Framework;
 namespace ContactsApp.UnitTests
 {
     /// <summary>
-    /// Сводное описание для PhoneNumberTests
+    ///Тестирование класса PhoneNumber
     /// </summary>
     [TestFixture]
     public class PhoneNumberTests
     {
-        private PhoneNumber _phoneNumber;
-
-        [SetUp]
-        public void InitPhoneNumber()
-        {
-            _phoneNumber = new PhoneNumber();
-        }
-
         [Test]
         public void PhoneNumber_GoodPhoneNumber_ReturnsSamePhoneNumber()
         {
             //Setup
+            var phoneNumber = new PhoneNumber();
             var sourcePhoneNumber = 79996198754;
             var expectedPhoneNumber = sourcePhoneNumber;
 
             //Act
-            _phoneNumber.Number = sourcePhoneNumber;
-            var actualPhoneNumber = _phoneNumber.Number;
+            phoneNumber.Number = sourcePhoneNumber;
+            var actualPhoneNumber = phoneNumber.Number;
 
             //Assert
             Assert.AreEqual(expectedPhoneNumber, actualPhoneNumber);
@@ -36,11 +29,13 @@ namespace ContactsApp.UnitTests
         [TestCase(877766655477777777)]
         public void PhoneNumber_BadPhoneNumber_ThrowsException(long wrongPhoneNumber)
         {
+            //Setup
+            var phoneNumber = new PhoneNumber();
             //Assert
             Assert.Throws<ArgumentException>
             (
                 //Act
-                () => _phoneNumber.Number = wrongPhoneNumber
+                () => phoneNumber.Number = wrongPhoneNumber
             );
         }
     }
