@@ -6,20 +6,20 @@ using NUnit.Framework;
 
 namespace ContactsApp.UnitTests
 {
+    /// <summary>
+    /// Класс тестирования класса Project.
+    /// </summary>
     [TestFixture]
-    public class ProjectTest
+    public class ProjectTests
     {
-        [Test]
-        public void SortContacts_GoodSort_ReturnSortedContacts()
+        private Project PrepareProject()
         {
-            //Setup
-            var sourceProject = new Project();
-            var phoneNumber = new PhoneNumber
+            var project = new Project();
+            var phoneNumber = new PhoneNumber()
             {
                 Number = 78005553535
             };
-            
-            sourceProject.Contacts.Add(new Contact()
+            project.Contacts.Add(new Contact()
             {
                 Name = "BName",
                 Surname = "BSurname",
@@ -28,16 +28,16 @@ namespace ContactsApp.UnitTests
                 Email = "Bhogger@bk.com",
                 PhoneNumber = phoneNumber
             });
-            sourceProject.Contacts.Add(new Contact()
+            project.Contacts.Add(new Contact()
             {
                 Name = "CName",
                 Surname = "CSurname",
-                BirthDate = new DateTime(1923, 02, 15),
+                BirthDate = new DateTime(1923, 09, 25),
                 VkId = "C434234",
                 Email = "Chogger@bk.com",
                 PhoneNumber = phoneNumber
             });
-            sourceProject.Contacts.Add(new Contact()
+            project.Contacts.Add(new Contact()
             {
                 Name = "AName",
                 Surname = "ASurname",
@@ -46,6 +46,15 @@ namespace ContactsApp.UnitTests
                 Email = "Ahogger@bk.com",
                 PhoneNumber = phoneNumber
             });
+
+            return project;
+        }
+        
+        [Test]
+        public void SortContacts_GoodSort_ReturnSortedContacts()
+        {
+            //Setup
+            var sourceProject = PrepareProject();
             
             var expectedProject = new Project();
             
@@ -73,39 +82,7 @@ namespace ContactsApp.UnitTests
         public void SortContacts_GoodSortAndFind_ReturnSortedFoundContacts()
         {
             //Setup
-            var sourceProject = new Project();
-            var phoneNumber = new PhoneNumber
-            {
-                Number = 78005553535
-            };
-
-            sourceProject.Contacts.Add(new Contact()
-            {
-                Name = "BName",
-                Surname = "BSurname",
-                BirthDate = new DateTime(1923, 02, 15),
-                VkId = "B434234",
-                Email = "Bhogger@bk.com",
-                PhoneNumber = phoneNumber
-            });
-            sourceProject.Contacts.Add(new Contact()
-            {
-                Name = "CName",
-                Surname = "CSurname",
-                BirthDate = new DateTime(1923, 02, 15),
-                VkId = "C434234",
-                Email = "Chogger@bk.com",
-                PhoneNumber = phoneNumber
-            });
-            sourceProject.Contacts.Add(new Contact()
-            {
-                Name = "AName",
-                Surname = "ASurname",
-                BirthDate = new DateTime(1923, 02, 15),
-                VkId = "A434234",
-                Email = "Ahogger@bk.com",
-                PhoneNumber = phoneNumber
-            });
+            var sourceProject = PrepareProject();
 
             var expectedProject = new Project();
             
@@ -128,44 +105,13 @@ namespace ContactsApp.UnitTests
         public void FindBirthdayContacts_GoodFindBirthdayContacts_ReturnBirthdayContacts()
         {
             //Setup
-            var sourceProject = new Project();
-            var phoneNumber = new PhoneNumber
-            {
-                Number = 78005553535
-            };
-
+            var sourceProject = PrepareProject();
             var commonDate = new DateTime(1923, 02, 15);
 
-            sourceProject.Contacts.Add(new Contact()
-            {
-                Name = "BName",
-                Surname = "BSurname",
-                BirthDate = commonDate,
-                VkId = "B434234",
-                Email = "Bhogger@bk.com",
-                PhoneNumber = phoneNumber
-            });
-            sourceProject.Contacts.Add(new Contact()
-            {
-                Name = "CName",
-                Surname = "CSurname",
-                BirthDate = new DateTime(1923, 10, 15),
-                VkId = "C434234",
-                Email = "Chogger@bk.com",
-                PhoneNumber = phoneNumber
-            });
-            sourceProject.Contacts.Add(new Contact()
-            {
-                Name = "AName",
-                Surname = "ASurname",
-                BirthDate = commonDate,
-                VkId = "A434234",
-                Email = "Ahogger@bk.com",
-                PhoneNumber = phoneNumber
-            });
+            sourceProject.Contacts.First().BirthDate = commonDate;
+            sourceProject.Contacts.Last().BirthDate = commonDate;
 
             var expectedProject = new Project();
-
             expectedProject.Contacts.Add(sourceProject.Contacts.Last());
             expectedProject.Contacts.Add(sourceProject.Contacts.First());
 

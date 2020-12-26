@@ -14,7 +14,7 @@ namespace ContactsApp
         /// </summary>
         public static string PathFile()
         {
-            return PathDirectory() + @"\Contacts.json";
+            return PathDirectory() + @"Contacts.json";
         }
 
         /// <summary>
@@ -27,35 +27,22 @@ namespace ContactsApp
         }
 
         /// <summary>
-        /// Метод сохранения данных путем сериализации.
+        /// Метод сохранения данных в файл.
         /// </summary>
-        /// <param name="project">Данные для сериализации.</param>
-        /// <param name="filepath">Путь до файла</param>
-        public static void SaveToFile(Project project, string filepath)
+        /// <param name="data">Данные для сериализации</param>
+        /// <param name="filePath">Путь до файла</param>
+        /// <param name="directoryPath">Путь до папки</param>
+        public static void SaveToFile(Project data, string filePath, string directoryPath)
         {
-            if (project.Contacts.Count >= 200)
+            if (!Directory.Exists(directoryPath))
             {
-                throw new ArgumentException("Maximum number of contacts is exceeded");
+                Directory.CreateDirectory(directoryPath);
             }
-
-            try
+            var serializer = new JsonSerializer();
+            using (var sw = new StreamWriter(filePath))
+            using (var writer = new JsonTextWriter(sw))
             {
-                var serializer = new JsonSerializer();
-                using (var sw = new StreamWriter(filepath))
-                using (JsonWriter writer = new JsonTextWriter(sw))
-                {
-                    serializer.Serialize(writer, project);
-                }
-            }
-            catch
-            {
-                Directory.CreateDirectory(PathDirectory());
-                var serializer = new JsonSerializer();
-                using (var sw = new StreamWriter(filepath))
-                using (JsonWriter writer = new JsonTextWriter(sw))
-                {
-                    serializer.Serialize(writer, project);
-                }
+                serializer.Serialize(writer, data);
             }
         }
 
@@ -72,14 +59,15 @@ namespace ContactsApp
             var serializer = new JsonSerializer();
             try
             {
-                using (StreamReader sr = new StreamReader(filepath))
-                using (JsonReader reader = new JsonTextReader(sr))
+                using (var sr = new StreamReader(filepath))
+                using (var reader = new JsonTextReader(sr))
                     project = serializer.Deserialize<Project>(reader);
             }
             catch
             {
                 return new Project();
             }
+            
             return project;
         }
     }

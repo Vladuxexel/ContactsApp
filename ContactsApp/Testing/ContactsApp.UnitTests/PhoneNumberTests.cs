@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace ContactsApp.UnitTests
 {
     /// <summary>
-    ///Тестирование класса PhoneNumber
+    /// Класс тестирования класса PhoneNumber.
     /// </summary>
     [TestFixture]
     public class PhoneNumberTests

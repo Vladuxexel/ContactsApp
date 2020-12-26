@@ -168,7 +168,7 @@ namespace ContactsAppUI
                         SelectedContact.PhoneNumber = contactWindow.Contact.PhoneNumber;
                         SelectedContact.Email = contactWindow.Contact.Email;
                         SelectedContact.VkId = contactWindow.Contact.VkId;
-                        ProjectManager.SaveToFile(Project, ProjectManager.PathFile());
+                        ProjectManager.SaveToFile(Project, ProjectManager.PathFile(), ProjectManager.PathDirectory());
                         GetBirthdaysContacts();
                         UpdateCurrentList();
                     }));
@@ -189,7 +189,7 @@ namespace ContactsAppUI
                         contactWindow.ShowDialog();
                         if (contactWindow.DialogResult == false) return;
                         Project.Contacts.Add(contactWindow.Contact);
-                        ProjectManager.SaveToFile(Project, ProjectManager.PathFile());
+                        ProjectManager.SaveToFile(Project, ProjectManager.PathFile(), ProjectManager.PathDirectory());
                         SelectedContact = contactWindow.Contact;
                         GetBirthdaysContacts();
                         UpdateCurrentList();
@@ -212,7 +212,7 @@ namespace ContactsAppUI
                             "Delete confirmation", MessageBoxButton.YesNo) != MessageBoxResult.Yes)
                             return;
                         Project.Contacts.Remove(SelectedContact);
-                        ProjectManager.SaveToFile(Project, ProjectManager.PathFile());
+                        ProjectManager.SaveToFile(Project, ProjectManager.PathFile(), ProjectManager.PathDirectory());
                         GetBirthdaysContacts();
                         UpdateCurrentList();
                         SelectedContact = Contacts.First();

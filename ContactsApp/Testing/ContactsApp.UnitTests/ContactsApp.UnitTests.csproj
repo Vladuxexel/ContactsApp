@@ -57,10 +57,12 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common.cs" />
     <Compile Include="ContactTests.cs" />
     <Compile Include="PhoneNumberTests.cs" />
+    <Compile Include="ProjectManagerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ProjectTest.cs" />
+    <Compile Include="ProjectTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

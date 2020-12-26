@@ -4,7 +4,7 @@ using System;
 namespace ContactsApp.UnitTests
 {
     /// <summary>
-    ///Тестирование класса Contact
+    /// Класс тестирования класса Contact.
     /// </summary>
     [TestFixture]
     public class ContactTests
