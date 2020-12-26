@@ -1,6 +1,5 @@
 ﻿using ContactsApp;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -32,6 +31,9 @@ namespace ContactsAppUI
         /// </summary>
         private string _birthdaySurnames;
 
+        /// <summary>
+        /// Поле видимости панели с именинниками
+        /// </summary>
         private string _birthdayToday;
 
         #region Command declarations
@@ -119,6 +121,9 @@ namespace ContactsAppUI
             }
         }
 
+        /// <summary>
+        /// Свойство видимости панели с именинниками
+        /// </summary>
         public string BirthdayToday
         {
             get => _birthdayToday;
@@ -154,7 +159,7 @@ namespace ContactsAppUI
                 return _editContactCommand ??
                     (_editContactCommand = new RelayCommand(obj =>
                     {
-                        var contactWindow = new ContactManagerWindow(SelectedContact.Clone() as Contact);
+                        var contactWindow = new ContactWindow(SelectedContact.Clone() as Contact);
                         contactWindow.ShowDialog();
                         if (contactWindow.DialogResult == false) return;
                         SelectedContact.Surname = contactWindow.Contact.Surname;
@@ -180,7 +185,7 @@ namespace ContactsAppUI
                 return _addContactCommand ??
                     (_addContactCommand = new RelayCommand(obj =>
                     {
-                        var contactWindow = new ContactManagerWindow(new Contact());
+                        var contactWindow = new ContactWindow(new Contact());
                         contactWindow.ShowDialog();
                         if (contactWindow.DialogResult == false) return;
                         Project.Contacts.Add(contactWindow.Contact);
@@ -247,6 +252,9 @@ namespace ContactsAppUI
         }
         #endregion
 
+        /// <summary>
+        /// Метод получения и отображения списка именинников.
+        /// </summary>
         private void GetBirthdaysContacts()
         {
             const string birthdayToday = "Сегодня день рождения:" + "\n";

@@ -20,7 +20,7 @@ namespace ContactsAppUI
         /// <summary>
         /// Поле контакта для работы в рамках данного окна.
         /// </summary>
-        private ValidatableContact _contact;
+        private ContactVM _contact;
 
         /// <summary>
         /// Команда сохранения контакта.
@@ -31,6 +31,11 @@ namespace ContactsAppUI
         /// Команда отмены редактирования и закрытия окна.
         /// </summary>
         private RelayCommand _cancelCommand;
+
+        /// <summary>
+        /// Команда установки полю значения Checked.
+        /// </summary>
+        private RelayCommand _checkFieldCommand;
 
         /// <summary>
         /// Свойство названия окна.
@@ -53,7 +58,7 @@ namespace ContactsAppUI
         /// <summary>
         /// Свойство контакта для работы в рамках данного окна.
         /// </summary>
-        public ValidatableContact Contact
+        public ContactVM Contact
         {
             get => _contact;
             set
@@ -66,22 +71,22 @@ namespace ContactsAppUI
         /// <summary>
         /// Конструктор класса вью-модели окна добавления/редактирования.
         /// </summary>
-        /// <param name="contact">Контакт, полученный из гравного окна</param>
+        /// <param name="contact">Контакт, полученный из главного окна</param>
         public ContactWindowVM(Contact contact)
         {
             TrueContact = contact;
 
             try
             {
-                Contact = new ValidatableContact(contact);
+                Contact = new ContactVM(contact);
                 WindowName = $"Edit contact {contact.Surname}";
             }
             catch
             {
-                Contact = new ValidatableContact
+                Contact = new ContactVM
                 {
                     BirthDate = new DateTime(2000, 1, 1),
-                    PhoneNumber = new ValidatablePhoneNumber()
+                    PhoneNumber = new PhoneNumberVM()
                 };
                 WindowName = "Add new contact";
             }
@@ -128,21 +133,36 @@ namespace ContactsAppUI
         }
 
         /// <summary>
+        /// Свойство команды установки полю значения Checked.
+        /// </summary>
+        public RelayCommand CheckFieldCommand
+        {
+            get
+            {
+                return _checkFieldCommand ??
+                       (_checkFieldCommand = new RelayCommand(obj =>
+                       {
+                           var fieldName = obj.ToString();
+                           Contact.SetChecked(fieldName);
+                       }));
+            }
+        }
+
+        /// <summary>
         /// Метод проверки полей контакта на заполненность.
         /// </summary>
         /// <param name="contact">Контакт</param>
         /// <returns>Заполнены ли все поля контакта</returns>
-        private bool IsFullFiled(ValidatableContact contact)
+        private bool IsFullFiled(ContactVM contact)
         {
-            return contact.Surname != null &&
-                    contact.Name != null &&
-                    contact.BirthDate != null &&
-                    contact.PhoneNumber != null &&
-                    contact.PhoneNumber.Number != 0 &&
-                    contact.PhoneNumber.Number.ToString()[0] == '7' &&
-                    contact.PhoneNumber.Number.ToString().Length == 11 &&
-                    contact.Email != null &&
-                    contact.VkId != null;
+            return !string.IsNullOrWhiteSpace(contact.Surname) &&
+                   !string.IsNullOrWhiteSpace(contact.Name) &&
+                   !string.IsNullOrWhiteSpace(contact.PhoneNumber.ToString()) &&
+                   contact.PhoneNumber.Number != 0 &&
+                   contact.PhoneNumber.Number.ToString()[0] == '7' &&
+                   contact.PhoneNumber.Number.ToString().Length == 11 &&
+                   !string.IsNullOrWhiteSpace(contact.Email) &&
+                   !string.IsNullOrWhiteSpace(contact.VkId);
         }
     }
 }

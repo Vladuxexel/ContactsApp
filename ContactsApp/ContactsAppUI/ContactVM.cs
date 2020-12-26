@@ -1,13 +1,14 @@
 ﻿using ContactsApp;
 using System;
 using System.ComponentModel;
+using System.Linq;
 
 namespace ContactsAppUI
 {
     /// <summary>
     /// Класс для манипуляций над валидируемым контактом.
     /// </summary>
-    public class ValidatableContact : BaseINotifyClass, IDataErrorInfo
+    public class ContactVM : BaseINotifyClass, IDataErrorInfo
     {
         /// <summary>
         /// Фамилия контакта.
@@ -37,18 +38,47 @@ namespace ContactsAppUI
         /// <summary>
         /// Номер контакта
         /// </summary>
-        private ValidatablePhoneNumber _phoneNumber;
+        private PhoneNumberVM _phoneNumber;
+
+        /// <summary>
+        /// Состояние поля отображения фамилии контакта.
+        /// </summary>
+        private bool _surnameChecked;
+
+        /// <summary>
+        /// Состояние поля отображения имени контакта.
+        /// </summary>
+        private bool _nameChecked;
+
+        /// <summary>
+        /// Состояние поля отображения дня рождения контакта.
+        /// </summary>
+        private bool _birthDateChecked;
+
+        /// <summary>
+        /// Состояние поля отображения номера телефона контакта.
+        /// </summary>
+        private bool _phoneNumberChecked;
+
+        /// <summary>
+        /// Состояние поля отображения электронной почты контакта.
+        /// </summary>
+        private bool _emailChecked;
+
+        /// <summary>
+        /// Состояние поля отображения Вконтакте контакта.
+        /// </summary>
+        private bool _vkIdChecked;
 
         /// <summary>
         /// Свойство ошибки.
         /// </summary>
         public string Error { get; private set; }
 
-
         /// <summary>
         /// Номер телефона контакта.
         /// </summary>
-        public ValidatablePhoneNumber PhoneNumber
+        public PhoneNumberVM PhoneNumber
         {
             get => _phoneNumber;
             set
@@ -66,7 +96,14 @@ namespace ContactsAppUI
             get => _surname;
             set
             {
-                _surname = char.ToUpper(value[0]) + value.Substring(1);
+                if (!string.IsNullOrWhiteSpace(value))
+                {
+                    _surname = char.ToUpper(value.First()) + value.Substring(1);
+                }
+                else
+                {
+                    _surname = value;
+                }
                 OnPropertyChanged(nameof(Surname));
             }
         }
@@ -79,7 +116,14 @@ namespace ContactsAppUI
             get => _name;
             set
             {
-                _name = char.ToUpper(value[0]) + value.Substring(1);
+                if (!string.IsNullOrWhiteSpace(value))
+                {
+                    _name = char.ToUpper(value[0]) + value.Substring(1);
+                }
+                else
+                {
+                    _name = value;
+                }
                 OnPropertyChanged(nameof(Name));
             }
         }
@@ -126,18 +170,18 @@ namespace ContactsAppUI
         /// <summary>
         /// Конструктор класса по умолчанию.
         /// </summary>
-        public ValidatableContact() { }
+        public ContactVM() { }
 
         /// <summary>
         /// Конструктор с параметром
         /// </summary>
         /// <param name="contact">Валидируемый контакт</param>
-        public ValidatableContact(Contact contact)
+        public ContactVM(Contact contact)
         {
             Surname = contact.Surname;
             Name = contact.Name;
             BirthDate = contact.BirthDate;
-            PhoneNumber = new ValidatablePhoneNumber() { Number = contact.PhoneNumber.Number };
+            PhoneNumber = new PhoneNumberVM() { Number = contact.PhoneNumber.Number };
             Email = contact.Email;
             VkId = contact.VkId;
         }
@@ -158,7 +202,7 @@ namespace ContactsAppUI
                     case "Surname":
                         if (string.IsNullOrWhiteSpace(Surname))
                         {
-                            error = "Surname is unset";
+                            if (_surnameChecked) error = "Surname is unset";
                         }
                         else if (Surname.Length > 50)
                         {
@@ -168,7 +212,7 @@ namespace ContactsAppUI
                     case "Name":
                         if (string.IsNullOrWhiteSpace(Name))
                         {
-                            error = "Name is unset";
+                            if (_nameChecked) error = "Name is unset";
                         }
                         else if (Name.Length > 50)
                         {
@@ -178,7 +222,7 @@ namespace ContactsAppUI
                     case "BirthDate":
                         if (BirthDate >= DateTime.Now)
                         {
-                            error = "Birth date can't exceed current date";
+                            if (_birthDateChecked) error = "Birth date can't exceed current date";
                         }
                         else if (BirthDate.Year < 1900)
                         {
@@ -186,7 +230,7 @@ namespace ContactsAppUI
                         }
                         break;
                     case "PhoneNumber":
-                        if (PhoneNumber == null)
+                        if (PhoneNumber == null && _phoneNumberChecked)
                         {
                             error = "Phone number is unset";
                         }
@@ -194,7 +238,7 @@ namespace ContactsAppUI
                     case "Email":
                         if (string.IsNullOrWhiteSpace(Email))
                         {
-                            error = "Email is unset";
+                            if (_emailChecked) error = "Email is unset";
                         }
                         else if (Email.Length > 50)
                         {
@@ -204,7 +248,7 @@ namespace ContactsAppUI
                     case "VkId":
                         if (string.IsNullOrWhiteSpace(VkId))
                         {
-                            error = "Vk Id is unset";
+                            if (_vkIdChecked) error = "Vk Id is unset";
                         }
                         else if (VkId.Length > 15)
                         {
@@ -212,9 +256,39 @@ namespace ContactsAppUI
                         }
                         break;
                 }
-
                 Error = error;
+                
                 return error;
+            }
+        }
+
+        /// <summary>
+        /// Метод установки состояния checked полям валидируемого контакта.
+        /// </summary>
+        /// <param name="fieldName">Имя поля</param>
+        public void SetChecked(string fieldName)
+        {
+            switch (fieldName)
+            {
+                case "SurnameTextBox":
+                    _surnameChecked = true;
+                    break;
+                case "NameTextBox":
+                    _nameChecked = true;
+                    break;
+                case "BirthDatePicker":
+                    _birthDateChecked = true;
+                    break;
+                case "PhoneNumberTextBox":
+                    _phoneNumberChecked = true;
+                    PhoneNumber.NumberIsChecked = true;
+                    break;
+                case "EmailTextBox":
+                    _emailChecked = true;
+                    break;
+                case "VkIdTextBox":
+                    _vkIdChecked = true;
+                    break;
             }
         }
     }

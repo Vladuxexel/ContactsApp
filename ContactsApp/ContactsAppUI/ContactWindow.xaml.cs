@@ -18,11 +18,11 @@ namespace ContactsAppUI
     /// <summary>
     /// Логика взаимодействия для ContactManagerWindow.xaml
     /// </summary>
-    public partial class ContactManagerWindow : Window
+    public partial class ContactWindow : Window
     {
         public Contact Contact { get; set; }
 
-        public ContactManagerWindow(Contact contact)
+        public ContactWindow(Contact contact)
         {
             Contact = contact;
             InitializeComponent();

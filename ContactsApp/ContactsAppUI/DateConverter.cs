@@ -19,7 +19,7 @@ namespace ContactsAppUI
         }
 
         /// <summary>
-        /// Мето обратной конвертации.
+        /// Метод обратной конвертации.
         /// </summary>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {

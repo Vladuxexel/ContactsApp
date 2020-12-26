@@ -6,12 +6,17 @@ namespace ContactsAppUI
     /// <summary>
     /// Класс для манипуляций над валидируемым номером телефона.
     /// </summary>
-    public class ValidatablePhoneNumber : BaseINotifyClass, IDataErrorInfo
+    public class PhoneNumberVM : BaseINotifyClass, IDataErrorInfo
     {
         /// <summary>
         /// Номер телефона.
         /// </summary>
         private long _number;
+
+        /// <summary>
+        /// Автосвойство состояния поля номера телефона контакта.
+        /// </summary>
+        public bool NumberIsChecked { get; set; }
 
         /// <summary>
         /// Свойство ошибки.
@@ -48,7 +53,7 @@ namespace ContactsAppUI
                     case "Number":
                         if (Number == 0)
                         {
-                            error = "Phone number is unset";
+                            if (NumberIsChecked) error = "Phone number is unset";
                         }
                         else if (Number.ToString().Length != 11)
                         {
