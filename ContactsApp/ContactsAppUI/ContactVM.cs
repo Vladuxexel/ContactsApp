@@ -2,6 +2,7 @@
 using System;
 using System.ComponentModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace ContactsAppUI
 {
@@ -69,6 +70,21 @@ namespace ContactsAppUI
         /// Состояние поля отображения Вконтакте контакта.
         /// </summary>
         private bool _vkIdChecked;
+
+        /// <summary>
+        /// Паттерн имени и фамилии.
+        /// </summary>
+        private const string RegexName = "^[а-яА-Яa-zA-Z]+(-[а-яА-Яa-zA-Z]+)?$";
+
+        /// <summary>
+        /// Паттерн емейла.
+        /// </summary>
+        private const string RegexEmail = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+
+        /// <summary>
+        /// Паттерн айди вк.
+        /// </summary>
+        private const string RegexVkId = "^[a-zA-Z0-9]+(_[a-zA-Z0-9]+)?$";
 
         /// <summary>
         /// Свойство ошибки.
@@ -204,6 +220,10 @@ namespace ContactsAppUI
                         {
                             if (_surnameChecked) error = "Surname is unset";
                         }
+                        else if (!Regex.IsMatch(Surname, RegexName))
+                        {
+                            error = "The surname should contain only Russian and Latin letters";
+                        }
                         else if (Surname.Length > 50)
                         {
                             error = "Length of surname can't exceed 50 characters";
@@ -213,6 +233,10 @@ namespace ContactsAppUI
                         if (string.IsNullOrWhiteSpace(Name))
                         {
                             if (_nameChecked) error = "Name is unset";
+                        }
+                        else if (!Regex.IsMatch(Name, RegexName))
+                        {
+                            error = "The name should contain only Russian and Latin letters";
                         }
                         else if (Name.Length > 50)
                         {
@@ -240,6 +264,10 @@ namespace ContactsAppUI
                         {
                             if (_emailChecked) error = "Email is unset";
                         }
+                        else if (!Regex.IsMatch(Email, RegexEmail))
+                        {
+                            error = "The e-mail should contain Latin letters, \"@\" and \".\"";
+                        }
                         else if (Email.Length > 50)
                         {
                             error = "Length of E-mail can't exceed 50 characters";
@@ -249,6 +277,10 @@ namespace ContactsAppUI
                         if (string.IsNullOrWhiteSpace(VkId))
                         {
                             if (_vkIdChecked) error = "Vk Id is unset";
+                        }
+                        else if (!Regex.IsMatch(VkId, RegexVkId))
+                        {
+                            error = "The e-mail should contain Latin letters";
                         }
                         else if (VkId.Length > 15)
                         {
