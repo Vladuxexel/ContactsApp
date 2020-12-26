@@ -32,7 +32,7 @@
         <KeyBinding Key="Delete" Command="{Binding DeleteContactCommand}"/>
     </Window.InputBindings>
     <DockPanel>
-        <Menu DockPanel.Dock="Top" Height="25" VerticalAlignment="Top" Grid.Row="0" Grid.ColumnSpan="2">
+        <Menu DockPanel.Dock="Top" Height="25" VerticalAlignment="Top">
             <MenuItem Header="File">
                 <MenuItem Header="Exit" Command="{Binding ExitApplicationCommand}" InputGestureText="Alt+F4"
                           CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"/>
