@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Tools.InnoSetup.6.1.2\build\Tools.InnoSetup.props" Condition="Exists('..\packages\Tools.InnoSetup.6.1.2\build\Tools.InnoSetup.props')" />
   <Import Project="..\packages\NUnit.3.12.0\build\NUnit.props" Condition="Exists('..\packages\NUnit.3.12.0\build\NUnit.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -147,5 +148,17 @@
       <ErrorText>Данный проект ссылается на пакеты NuGet, отсутствующие на этом компьютере. Используйте восстановление пакетов NuGet, чтобы скачать их.  Дополнительную информацию см. по адресу: http://go.microsoft.com/fwlink/?LinkID=322105. Отсутствует следующий файл: {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\NUnit.3.12.0\build\NUnit.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit.3.12.0\build\NUnit.props'))" />
+    <Error Condition="!Exists('..\packages\Tools.InnoSetup.6.1.2\build\Tools.InnoSetup.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Tools.InnoSetup.6.1.2\build\Tools.InnoSetup.props'))" />
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>md "$(SolutionDir)InstallScripts"
+md "$(SolutionDir)InstallScripts\Release"
+md "$(SolutionDir)InstallScripts\Installers"
+xcopy "$(ProjectDir)$(OutDir)*.dll" "$(SolutionDir)InstallScripts\Release\"
+xcopy "$(ProjectDir)$(OutDir)*.exe" "$(SolutionDir)InstallScripts\Release\"</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>rd /S /Q "$(SolutionDir)InstallScripts\Release"
+rd /S /Q "$(SolutionDir)InstallScripts\Installers"</PreBuildEvent>
+  </PropertyGroup>
 </Project>

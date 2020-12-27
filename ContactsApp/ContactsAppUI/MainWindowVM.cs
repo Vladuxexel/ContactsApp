@@ -145,7 +145,7 @@ namespace ContactsAppUI
             {
                 SelectedContact = Contacts.First();
             }
-            GetBirthdaysContacts();
+            UpdateCurrentList();
         }
 
         #region Command inplementations
@@ -169,7 +169,6 @@ namespace ContactsAppUI
                         SelectedContact.Email = contactWindow.Contact.Email;
                         SelectedContact.VkId = contactWindow.Contact.VkId;
                         ProjectManager.SaveToFile(Project, ProjectManager.PathFile(), ProjectManager.PathDirectory());
-                        GetBirthdaysContacts();
                         UpdateCurrentList();
                     }));
             }
@@ -191,7 +190,6 @@ namespace ContactsAppUI
                         Project.Contacts.Add(contactWindow.Contact);
                         ProjectManager.SaveToFile(Project, ProjectManager.PathFile(), ProjectManager.PathDirectory());
                         SelectedContact = contactWindow.Contact;
-                        GetBirthdaysContacts();
                         UpdateCurrentList();
                     }));
             }
@@ -213,7 +211,6 @@ namespace ContactsAppUI
                             return;
                         Project.Contacts.Remove(SelectedContact);
                         ProjectManager.SaveToFile(Project, ProjectManager.PathFile(), ProjectManager.PathDirectory());
-                        GetBirthdaysContacts();
                         UpdateCurrentList();
                         SelectedContact = Contacts.First();
                     }));
@@ -281,6 +278,7 @@ namespace ContactsAppUI
         private void UpdateCurrentList()
         {
             Contacts = Project.SortContactsBySurname(SearchKey, Project);
+            GetBirthdaysContacts();
         }
     }
 }
