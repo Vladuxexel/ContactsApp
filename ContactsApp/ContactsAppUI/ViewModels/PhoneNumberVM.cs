@@ -6,7 +6,7 @@ namespace ContactsAppUI
     /// <summary>
     /// Класс для манипуляций над валидируемым номером телефона.
     /// </summary>
-    public class PhoneNumberVM : BaseINotifyClass, IDataErrorInfo
+    public class PhoneNumberVM : ModelBase, IDataErrorInfo
     {
         /// <summary>
         /// Номер телефона.

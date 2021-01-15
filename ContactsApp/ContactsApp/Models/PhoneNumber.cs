@@ -5,7 +5,7 @@ namespace ContactsApp
     /// <summary>
     /// Класс номера телефона.
     /// </summary>
-    public class PhoneNumber : BaseINotifyClass
+    public class PhoneNumber : ModelBase
     {
         /// <summary>
         /// Номер телефона.

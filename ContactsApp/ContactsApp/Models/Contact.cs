@@ -5,7 +5,7 @@ namespace ContactsApp
     /// <summary>
     /// Класс контакта.
     /// </summary>
-    public class Contact : BaseINotifyClass, ICloneable
+    public class Contact : ModelBase, ICloneable
     {
         /// <summary>
         /// Фамилия контакта.

@@ -2,7 +2,7 @@
 
 namespace ContactsApp
 {
-    public class BaseINotifyClass : INotifyPropertyChanged
+    public class ModelBase : INotifyPropertyChanged
     {
         /// <summary>
         /// Делегат, отслеживающий изменения свойств компонента.

@@ -10,12 +10,12 @@ namespace ContactsAppUI
     /// <summary>
     /// Вью-модель окна добавления/редактирования.
     /// </summary>
-    public class ContactWindowVM : BaseINotifyClass
+    public class ContactWindowVM : ModelBase
     {
         /// <summary>
         /// Поле контакта для временного хранения в целях валидации данных.
         /// </summary>
-        private Contact _trueContact;
+        private Contact _validatableContact;
 
         /// <summary>
         /// Поле контакта для работы в рамках данного окна.
@@ -45,13 +45,13 @@ namespace ContactsAppUI
         /// <summary>
         /// Свойство контакта для временного хранения в целях валидации данных.
         /// </summary>
-        public Contact TrueContact
+        public Contact ValidatableContact
         {
-            get => _trueContact;
+            get => _validatableContact;
             set
             {
-                _trueContact = value;
-                OnPropertyChanged(nameof(TrueContact));
+                _validatableContact = value;
+                OnPropertyChanged(nameof(ValidatableContact));
             }
         }
 
@@ -74,14 +74,14 @@ namespace ContactsAppUI
         /// <param name="contact">Контакт, полученный из главного окна</param>
         public ContactWindowVM(Contact contact)
         {
-            TrueContact = contact;
+            ValidatableContact = contact;
 
-            try
+            if (IsFullFiled(contact))
             {
                 Contact = new ContactVM(contact);
                 WindowName = $"Edit contact {contact.Surname}";
             }
-            catch
+            else
             {
                 Contact = new ContactVM
                 {
@@ -103,12 +103,12 @@ namespace ContactsAppUI
                 return _saveContactCommand ??
                     (_saveContactCommand = new RelayCommand(obj =>
                     {
-                        TrueContact.Surname = Contact.Surname;
-                        TrueContact.Name = Contact.Name;
-                        TrueContact.BirthDate = Contact.BirthDate;
-                        TrueContact.PhoneNumber = new PhoneNumber() { Number = Contact.PhoneNumber.Number };
-                        TrueContact.Email = Contact.Email;
-                        TrueContact.VkId = Contact.VkId;
+                        ValidatableContact.Surname = Contact.Surname;
+                        ValidatableContact.Name = Contact.Name;
+                        ValidatableContact.BirthDate = Contact.BirthDate;
+                        ValidatableContact.PhoneNumber = new PhoneNumber() { Number = Contact.PhoneNumber.Number };
+                        ValidatableContact.Email = Contact.Email;
+                        ValidatableContact.VkId = Contact.VkId;
                         ((Window)obj).DialogResult = true;
                         ((Window)obj).Close();
                     },
@@ -154,6 +154,23 @@ namespace ContactsAppUI
         /// <param name="contact">Контакт</param>
         /// <returns>Заполнены ли все поля контакта</returns>
         private bool IsFullFiled(ContactVM contact)
+        {
+            return !string.IsNullOrWhiteSpace(contact.Surname) &&
+                   !string.IsNullOrWhiteSpace(contact.Name) &&
+                   !string.IsNullOrWhiteSpace(contact.PhoneNumber.ToString()) &&
+                   contact.PhoneNumber.Number != 0 &&
+                   contact.PhoneNumber.Number.ToString()[0] == '7' &&
+                   contact.PhoneNumber.Number.ToString().Length == 11 &&
+                   !string.IsNullOrWhiteSpace(contact.Email) &&
+                   !string.IsNullOrWhiteSpace(contact.VkId);
+        }
+
+        /// <summary>
+        /// Метод проверки объекта контакта на заполненность.
+        /// </summary>
+        /// <param name="contact">Контакт</param>
+        /// <returns>Заполнены ли все поля контакта</returns>
+        private bool IsFullFiled(Contact contact)
         {
             return !string.IsNullOrWhiteSpace(contact.Surname) &&
                    !string.IsNullOrWhiteSpace(contact.Name) &&

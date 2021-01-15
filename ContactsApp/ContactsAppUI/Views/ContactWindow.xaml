@@ -88,7 +88,8 @@
             </i:Interaction.Triggers>
         </TextBox>
         <Label Grid.Column="0" Grid.Row="2" Content="Birthday:"/>
-        <DatePicker x:Name="BirthDatePicker" Grid.Column="1" Grid.Row="2" SelectedDate="{Binding Contact.BirthDate,
+        <DatePicker x:Name="BirthDatePicker" Grid.Column="1" Grid.Row="2" 
+                    SelectedDate="{Binding Contact.BirthDate,
                     ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="LostFocus">

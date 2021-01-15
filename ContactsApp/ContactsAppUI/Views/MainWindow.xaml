@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:ContactsAppUI"
         xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
         mc:Ignorable="d"
-        Title="ContactsApp" MinHeight="450" MinWidth="800" Background="#f0f0f0" WindowStartupLocation="CenterScreen">
+        Title="ContactsApp" MinHeight="450" MinWidth="800"
+        Background="{Binding ElementName=Menu, Path=Background}" WindowStartupLocation="CenterScreen">
     <Window.DataContext>
         <local:MainWindowVM/>
     </Window.DataContext>
@@ -32,7 +33,7 @@
         <KeyBinding Key="Delete" Command="{Binding DeleteContactCommand}"/>
     </Window.InputBindings>
     <DockPanel>
-        <Menu DockPanel.Dock="Top" Height="25" VerticalAlignment="Top">
+        <Menu x:Name="Menu" DockPanel.Dock="Top" Height="25" VerticalAlignment="Top">
             <MenuItem Header="File">
                 <MenuItem Header="Exit" Command="{Binding ExitApplicationCommand}" InputGestureText="Alt+F4"
                           CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"/>

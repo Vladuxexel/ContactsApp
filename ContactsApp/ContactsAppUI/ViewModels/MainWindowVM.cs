@@ -9,7 +9,7 @@ namespace ContactsAppUI
     /// <summary>
     /// Вью-модель главного окна.
     /// </summary>
-    public class MainWindowVM : BaseINotifyClass
+    public class MainWindowVM : ModelBase
     {
         /// <summary>
         /// Поле выбранного контакта.

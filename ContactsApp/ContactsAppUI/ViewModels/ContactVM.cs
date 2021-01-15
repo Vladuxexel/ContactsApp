@@ -9,7 +9,7 @@ namespace ContactsAppUI
     /// <summary>
     /// Класс для манипуляций над валидируемым контактом.
     /// </summary>
-    public class ContactVM : BaseINotifyClass, IDataErrorInfo
+    public class ContactVM : ModelBase, IDataErrorInfo
     {
         /// <summary>
         /// Фамилия контакта.
